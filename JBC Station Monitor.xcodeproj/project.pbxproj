@@ -1,0 +1,578 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		07A6EF342C0D31F40003AD7E /* JBC_Station_MonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */; };
+		07A6EF362C0D31F40003AD7E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF352C0D31F40003AD7E /* ContentView.swift */; };
+		07A6EF382C0D31F60003AD7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07A6EF372C0D31F60003AD7E /* Assets.xcassets */; };
+		07A6EF3B2C0D31F60003AD7E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07A6EF3A2C0D31F60003AD7E /* Preview Assets.xcassets */; };
+		07A6EF462C0D31F60003AD7E /* JBC_Station_MonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF452C0D31F60003AD7E /* JBC_Station_MonitorTests.swift */; };
+		07A6EF502C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF4F2C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift */; };
+		07A6EF522C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF512C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		07A6EF422C0D31F60003AD7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07A6EF282C0D31F40003AD7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07A6EF2F2C0D31F40003AD7E;
+			remoteInfo = "JBC Station Monitor";
+		};
+		07A6EF4C2C0D31F60003AD7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07A6EF282C0D31F40003AD7E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 07A6EF2F2C0D31F40003AD7E;
+			remoteInfo = "JBC Station Monitor";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		07A6EF302C0D31F40003AD7E /* JBC Station Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JBC Station Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorApp.swift; sourceTree = "<group>"; };
+		07A6EF352C0D31F40003AD7E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		07A6EF372C0D31F60003AD7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		07A6EF3A2C0D31F60003AD7E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		07A6EF3C2C0D31F60003AD7E /* JBC_Station_Monitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JBC_Station_Monitor.entitlements; sourceTree = "<group>"; };
+		07A6EF412C0D31F60003AD7E /* JBC Station MonitorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JBC Station MonitorTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		07A6EF452C0D31F60003AD7E /* JBC_Station_MonitorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorTests.swift; sourceTree = "<group>"; };
+		07A6EF4B2C0D31F60003AD7E /* JBC Station MonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JBC Station MonitorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		07A6EF4F2C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorUITests.swift; sourceTree = "<group>"; };
+		07A6EF512C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		07A6EF2D2C0D31F40003AD7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07A6EF3E2C0D31F60003AD7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07A6EF482C0D31F60003AD7E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		07A6EF272C0D31F40003AD7E = {
+			isa = PBXGroup;
+			children = (
+				07A6EF322C0D31F40003AD7E /* JBC Station Monitor */,
+				07A6EF442C0D31F60003AD7E /* JBC Station MonitorTests */,
+				07A6EF4E2C0D31F60003AD7E /* JBC Station MonitorUITests */,
+				07A6EF312C0D31F40003AD7E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		07A6EF312C0D31F40003AD7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF302C0D31F40003AD7E /* JBC Station Monitor.app */,
+				07A6EF412C0D31F60003AD7E /* JBC Station MonitorTests.xctest */,
+				07A6EF4B2C0D31F60003AD7E /* JBC Station MonitorUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		07A6EF322C0D31F40003AD7E /* JBC Station Monitor */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */,
+				07A6EF352C0D31F40003AD7E /* ContentView.swift */,
+				07A6EF372C0D31F60003AD7E /* Assets.xcassets */,
+				07A6EF3C2C0D31F60003AD7E /* JBC_Station_Monitor.entitlements */,
+				07A6EF392C0D31F60003AD7E /* Preview Content */,
+			);
+			path = "JBC Station Monitor";
+			sourceTree = "<group>";
+		};
+		07A6EF392C0D31F60003AD7E /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF3A2C0D31F60003AD7E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		07A6EF442C0D31F60003AD7E /* JBC Station MonitorTests */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF452C0D31F60003AD7E /* JBC_Station_MonitorTests.swift */,
+			);
+			path = "JBC Station MonitorTests";
+			sourceTree = "<group>";
+		};
+		07A6EF4E2C0D31F60003AD7E /* JBC Station MonitorUITests */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF4F2C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift */,
+				07A6EF512C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift */,
+			);
+			path = "JBC Station MonitorUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		07A6EF2F2C0D31F40003AD7E /* JBC Station Monitor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07A6EF552C0D31F60003AD7E /* Build configuration list for PBXNativeTarget "JBC Station Monitor" */;
+			buildPhases = (
+				07A6EF2C2C0D31F40003AD7E /* Sources */,
+				07A6EF2D2C0D31F40003AD7E /* Frameworks */,
+				07A6EF2E2C0D31F40003AD7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "JBC Station Monitor";
+			productName = "JBC Station Monitor";
+			productReference = 07A6EF302C0D31F40003AD7E /* JBC Station Monitor.app */;
+			productType = "com.apple.product-type.application";
+		};
+		07A6EF402C0D31F60003AD7E /* JBC Station MonitorTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07A6EF582C0D31F60003AD7E /* Build configuration list for PBXNativeTarget "JBC Station MonitorTests" */;
+			buildPhases = (
+				07A6EF3D2C0D31F60003AD7E /* Sources */,
+				07A6EF3E2C0D31F60003AD7E /* Frameworks */,
+				07A6EF3F2C0D31F60003AD7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				07A6EF432C0D31F60003AD7E /* PBXTargetDependency */,
+			);
+			name = "JBC Station MonitorTests";
+			productName = "JBC Station MonitorTests";
+			productReference = 07A6EF412C0D31F60003AD7E /* JBC Station MonitorTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		07A6EF4A2C0D31F60003AD7E /* JBC Station MonitorUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 07A6EF5B2C0D31F60003AD7E /* Build configuration list for PBXNativeTarget "JBC Station MonitorUITests" */;
+			buildPhases = (
+				07A6EF472C0D31F60003AD7E /* Sources */,
+				07A6EF482C0D31F60003AD7E /* Frameworks */,
+				07A6EF492C0D31F60003AD7E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				07A6EF4D2C0D31F60003AD7E /* PBXTargetDependency */,
+			);
+			name = "JBC Station MonitorUITests";
+			productName = "JBC Station MonitorUITests";
+			productReference = 07A6EF4B2C0D31F60003AD7E /* JBC Station MonitorUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		07A6EF282C0D31F40003AD7E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					07A6EF2F2C0D31F40003AD7E = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					07A6EF402C0D31F60003AD7E = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 07A6EF2F2C0D31F40003AD7E;
+					};
+					07A6EF4A2C0D31F60003AD7E = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 07A6EF2F2C0D31F40003AD7E;
+					};
+				};
+			};
+			buildConfigurationList = 07A6EF2B2C0D31F40003AD7E /* Build configuration list for PBXProject "JBC Station Monitor" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 07A6EF272C0D31F40003AD7E;
+			productRefGroup = 07A6EF312C0D31F40003AD7E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				07A6EF2F2C0D31F40003AD7E /* JBC Station Monitor */,
+				07A6EF402C0D31F60003AD7E /* JBC Station MonitorTests */,
+				07A6EF4A2C0D31F60003AD7E /* JBC Station MonitorUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		07A6EF2E2C0D31F40003AD7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07A6EF3B2C0D31F60003AD7E /* Preview Assets.xcassets in Resources */,
+				07A6EF382C0D31F60003AD7E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07A6EF3F2C0D31F60003AD7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07A6EF492C0D31F60003AD7E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		07A6EF2C2C0D31F40003AD7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07A6EF362C0D31F40003AD7E /* ContentView.swift in Sources */,
+				07A6EF342C0D31F40003AD7E /* JBC_Station_MonitorApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07A6EF3D2C0D31F60003AD7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07A6EF462C0D31F60003AD7E /* JBC_Station_MonitorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		07A6EF472C0D31F60003AD7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				07A6EF522C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift in Sources */,
+				07A6EF502C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		07A6EF432C0D31F60003AD7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07A6EF2F2C0D31F40003AD7E /* JBC Station Monitor */;
+			targetProxy = 07A6EF422C0D31F60003AD7E /* PBXContainerItemProxy */;
+		};
+		07A6EF4D2C0D31F60003AD7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 07A6EF2F2C0D31F40003AD7E /* JBC Station Monitor */;
+			targetProxy = 07A6EF4C2C0D31F60003AD7E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		07A6EF532C0D31F60003AD7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		07A6EF542C0D31F60003AD7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		07A6EF562C0D31F60003AD7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "JBC Station Monitor/JBC_Station_Monitor.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"JBC Station Monitor/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-Monitor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		07A6EF572C0D31F60003AD7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "JBC Station Monitor/JBC_Station_Monitor.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"JBC Station Monitor/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-Monitor";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		07A6EF592C0D31F60003AD7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-MonitorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JBC Station Monitor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JBC Station Monitor";
+			};
+			name = Debug;
+		};
+		07A6EF5A2C0D31F60003AD7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-MonitorTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JBC Station Monitor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/JBC Station Monitor";
+			};
+			name = Release;
+		};
+		07A6EF5C2C0D31F60003AD7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-MonitorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "JBC Station Monitor";
+			};
+			name = Debug;
+		};
+		07A6EF5D2C0D31F60003AD7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-MonitorUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = "JBC Station Monitor";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		07A6EF2B2C0D31F40003AD7E /* Build configuration list for PBXProject "JBC Station Monitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07A6EF532C0D31F60003AD7E /* Debug */,
+				07A6EF542C0D31F60003AD7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07A6EF552C0D31F60003AD7E /* Build configuration list for PBXNativeTarget "JBC Station Monitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07A6EF562C0D31F60003AD7E /* Debug */,
+				07A6EF572C0D31F60003AD7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07A6EF582C0D31F60003AD7E /* Build configuration list for PBXNativeTarget "JBC Station MonitorTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07A6EF592C0D31F60003AD7E /* Debug */,
+				07A6EF5A2C0D31F60003AD7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		07A6EF5B2C0D31F60003AD7E /* Build configuration list for PBXNativeTarget "JBC Station MonitorUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				07A6EF5C2C0D31F60003AD7E /* Debug */,
+				07A6EF5D2C0D31F60003AD7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 07A6EF282C0D31F40003AD7E /* Project object */;
+}
