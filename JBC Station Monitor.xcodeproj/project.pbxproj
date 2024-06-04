@@ -8,12 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		07A6EF342C0D31F40003AD7E /* JBC_Station_MonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */; };
-		07A6EF362C0D31F40003AD7E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF352C0D31F40003AD7E /* ContentView.swift */; };
+		07A6EF362C0D31F40003AD7E /* MainWindowContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF352C0D31F40003AD7E /* MainWindowContentView.swift */; };
 		07A6EF382C0D31F60003AD7E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07A6EF372C0D31F60003AD7E /* Assets.xcassets */; };
 		07A6EF3B2C0D31F60003AD7E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 07A6EF3A2C0D31F60003AD7E /* Preview Assets.xcassets */; };
 		07A6EF462C0D31F60003AD7E /* JBC_Station_MonitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF452C0D31F60003AD7E /* JBC_Station_MonitorTests.swift */; };
 		07A6EF502C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF4F2C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift */; };
 		07A6EF522C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF512C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift */; };
+		07A6EF602C0D32D80003AD7E /* ORSSerial in Frameworks */ = {isa = PBXBuildFile; productRef = 07A6EF5F2C0D32D80003AD7E /* ORSSerial */; };
+		07A6EF642C0D336A0003AD7E /* SerialManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF632C0D336A0003AD7E /* SerialManager.swift */; };
+		07A6EF692C0D395A0003AD7E /* SerialPortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF682C0D395A0003AD7E /* SerialPortView.swift */; };
+		07A6EF6B2C0D3A920003AD7E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07A6EF6A2C0D3A920003AD7E /* Localizable.xcstrings */; };
+		07A6EF6D2C0D4A120003AD7E /* JBCStationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF6C2C0D4A120003AD7E /* JBCStationCommand.swift */; };
+		07A6EF6F2C0D70D90003AD7E /* JBCSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF6E2C0D70D90003AD7E /* JBCSerialPort.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,7 +42,7 @@
 /* Begin PBXFileReference section */
 		07A6EF302C0D31F40003AD7E /* JBC Station Monitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JBC Station Monitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorApp.swift; sourceTree = "<group>"; };
-		07A6EF352C0D31F40003AD7E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		07A6EF352C0D31F40003AD7E /* MainWindowContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowContentView.swift; sourceTree = "<group>"; };
 		07A6EF372C0D31F60003AD7E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		07A6EF3A2C0D31F60003AD7E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		07A6EF3C2C0D31F60003AD7E /* JBC_Station_Monitor.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JBC_Station_Monitor.entitlements; sourceTree = "<group>"; };
@@ -45,6 +51,12 @@
 		07A6EF4B2C0D31F60003AD7E /* JBC Station MonitorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JBC Station MonitorUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		07A6EF4F2C0D31F60003AD7E /* JBC_Station_MonitorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorUITests.swift; sourceTree = "<group>"; };
 		07A6EF512C0D31F60003AD7E /* JBC_Station_MonitorUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBC_Station_MonitorUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		07A6EF632C0D336A0003AD7E /* SerialManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialManager.swift; sourceTree = "<group>"; };
+		07A6EF652C0D38330003AD7E /* JBC Station Monitor-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "JBC Station Monitor-Bridging-Header.h"; sourceTree = "<group>"; };
+		07A6EF682C0D395A0003AD7E /* SerialPortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SerialPortView.swift; sourceTree = "<group>"; };
+		07A6EF6A2C0D3A920003AD7E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		07A6EF6C2C0D4A120003AD7E /* JBCStationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCStationCommand.swift; sourceTree = "<group>"; };
+		07A6EF6E2C0D70D90003AD7E /* JBCSerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCSerialPort.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +64,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A6EF602C0D32D80003AD7E /* ORSSerial in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,10 +108,12 @@
 		07A6EF322C0D31F40003AD7E /* JBC Station Monitor */ = {
 			isa = PBXGroup;
 			children = (
-				07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */,
-				07A6EF352C0D31F40003AD7E /* ContentView.swift */,
-				07A6EF372C0D31F60003AD7E /* Assets.xcassets */,
 				07A6EF3C2C0D31F60003AD7E /* JBC_Station_Monitor.entitlements */,
+				07A6EF652C0D38330003AD7E /* JBC Station Monitor-Bridging-Header.h */,
+				07A6EF622C0D33410003AD7E /* JBC Data */,
+				07A6EF612C0D33210003AD7E /* UI */,
+				07A6EF372C0D31F60003AD7E /* Assets.xcassets */,
+				07A6EF6A2C0D3A920003AD7E /* Localizable.xcstrings */,
 				07A6EF392C0D31F60003AD7E /* Preview Content */,
 			);
 			path = "JBC Station Monitor";
@@ -129,6 +144,26 @@
 			path = "JBC Station MonitorUITests";
 			sourceTree = "<group>";
 		};
+		07A6EF612C0D33210003AD7E /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */,
+				07A6EF352C0D31F40003AD7E /* MainWindowContentView.swift */,
+				07A6EF682C0D395A0003AD7E /* SerialPortView.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		07A6EF622C0D33410003AD7E /* JBC Data */ = {
+			isa = PBXGroup;
+			children = (
+				07A6EF632C0D336A0003AD7E /* SerialManager.swift */,
+				07A6EF6E2C0D70D90003AD7E /* JBCSerialPort.swift */,
+				07A6EF6C2C0D4A120003AD7E /* JBCStationCommand.swift */,
+			);
+			path = "JBC Data";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,6 +180,9 @@
 			dependencies = (
 			);
 			name = "JBC Station Monitor";
+			packageProductDependencies = (
+				07A6EF5F2C0D32D80003AD7E /* ORSSerial */,
+			);
 			productName = "JBC Station Monitor";
 			productReference = 07A6EF302C0D31F40003AD7E /* JBC Station Monitor.app */;
 			productType = "com.apple.product-type.application";
@@ -197,6 +235,7 @@
 				TargetAttributes = {
 					07A6EF2F2C0D31F40003AD7E = {
 						CreatedOnToolsVersion = 15.4;
+						LastSwiftMigration = 1540;
 					};
 					07A6EF402C0D31F60003AD7E = {
 						CreatedOnToolsVersion = 15.4;
@@ -217,6 +256,9 @@
 				Base,
 			);
 			mainGroup = 07A6EF272C0D31F40003AD7E;
+			packageReferences = (
+				07A6EF5E2C0D32D80003AD7E /* XCRemoteSwiftPackageReference "ORSSerialPort" */,
+			);
 			productRefGroup = 07A6EF312C0D31F40003AD7E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -235,6 +277,7 @@
 			files = (
 				07A6EF3B2C0D31F60003AD7E /* Preview Assets.xcassets in Resources */,
 				07A6EF382C0D31F60003AD7E /* Assets.xcassets in Resources */,
+				07A6EF6B2C0D3A920003AD7E /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -259,8 +302,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07A6EF362C0D31F40003AD7E /* ContentView.swift in Sources */,
+				07A6EF642C0D336A0003AD7E /* SerialManager.swift in Sources */,
+				07A6EF362C0D31F40003AD7E /* MainWindowContentView.swift in Sources */,
 				07A6EF342C0D31F40003AD7E /* JBC_Station_MonitorApp.swift in Sources */,
+				07A6EF6D2C0D4A120003AD7E /* JBCStationCommand.swift in Sources */,
+				07A6EF6F2C0D70D90003AD7E /* JBCSerialPort.swift in Sources */,
+				07A6EF692C0D395A0003AD7E /* SerialPortView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +467,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "JBC Station Monitor/JBC_Station_Monitor.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -436,6 +484,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-Monitor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "JBC Station Monitor/JBC Station Monitor-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -445,6 +495,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "JBC Station Monitor/JBC_Station_Monitor.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -461,6 +512,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.reddish-bear.JBC-Station-Monitor";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "JBC Station Monitor/JBC Station Monitor-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
@@ -573,6 +625,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		07A6EF5E2C0D32D80003AD7E /* XCRemoteSwiftPackageReference "ORSSerialPort" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/armadsen/ORSSerialPort";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		07A6EF5F2C0D32D80003AD7E /* ORSSerial */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 07A6EF5E2C0D32D80003AD7E /* XCRemoteSwiftPackageReference "ORSSerialPort" */;
+			productName = ORSSerial;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 07A6EF282C0D31F40003AD7E /* Project object */;
 }

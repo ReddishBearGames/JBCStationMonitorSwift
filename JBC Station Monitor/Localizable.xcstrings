@@ -1,0 +1,82 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "BUTTON_OPEN_PORT" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detect JBC Tool…"
+          }
+        }
+      }
+    },
+    "Found %lld serial ports." : {
+
+    },
+    "JBC_SERIALPORT_STATE_INITIALIZING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Initializing"
+          }
+        }
+      }
+    },
+    "JBC_SERIALPORT_STATE_UNINITIALIZED" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Uninitialized"
+          }
+        }
+      }
+    },
+    "JBC_SERIALPORT_STATE_UNKNOWN_DEVICE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown Device"
+          }
+        }
+      }
+    },
+    "SERIAL_VIEW_PRODUCT_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Product ID:"
+          }
+        }
+      }
+    },
+    "SERIAL_VIEW_STATUS_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status:"
+          }
+        }
+      }
+    },
+    "SERIAL_VIEW_VENDOR_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vendor ID:"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
