@@ -38,11 +38,25 @@ import ORSSerial
 		}
 	}
 	
+	enum HandshakeStage
+	{
+		case notStarted
+		case waitingForFW
+		case waitingForDeviceID
+		case waitingForAck
+		case complete
+	}
 	
 	public let serialPort: ORSSerialPort
 	var state: State = .uninitialized
 	var targetAddress: UInt8 = 0
 	var sourceAddress: UInt8 = 0
+	var handshakeState: HandshakeStage = .notStarted
+	var stationModel: String? = nil
+	var lastSentFID: UInt8 = 0
+	var rawFirmwareResponse: String? = nil
+	var rawDeviceIDResponse: String? = nil
+	static let FIDMAX: UInt8 = 239 // Anything higher is reserved
 	
 	init(serialPort: ORSSerialPort)
 	{
@@ -76,27 +90,47 @@ import ORSSerial
 		self.serialPort.open()
 	}
 	
-	public func formCommand(FID: UInt8, command: JBCStationCommand.Command, data: Data = Data(), overrideSourceAddress: UInt8? = nil) -> JBCStationCommand
+	public func formCommand(FID: UInt8? = nil, command: JBCStationCommand.Command, data: Data = Data(), overrideTargetAddress: UInt8? = nil) throws -> JBCStationCommand
 	{
-		let ReturnMe = JBCStationCommand(FID: FID, command: command,
-										 sourceDevice: overrideSourceAddress ?? sourceAddress,
-										 targetDevice: targetAddress, dataField: data)
+		var useFID: UInt8? = FID
+		if useFID == nil
+		{
+			// If no FID specified, use the next in sequence.
+			useFID = lastSentFID + 1
+			// Important that we only do this "wrapping" in the nil case, because handshaking requires out-of-bounds FIDs
+			if useFID! > JBCSerialPort.FIDMAX
+			{
+				useFID = 0
+			}
+		}
+
+		guard let useFID = useFID
+		else {
+			throw JBCStationCommand.CommandError.malformedPacket("nil FID?!") // I think this is impossible?
+		}
+			
+		let ReturnMe = JBCStationCommand(FID: useFID, command: command,
+										 sourceDevice: sourceAddress,
+										 targetDevice: overrideTargetAddress ?? targetAddress, dataField: data)
+		// Might this never be sent? Sure. Does it matter? Not really.
+		self.lastSentFID = useFID
 		return ReturnMe
 	}
 	
 	public func sendCommand(_ command: JBCStationCommand)
 	{
-		print("Transmit Command: \(command.encode().map { String(format: "%02d", $0) }.joined(separator: ","))")
+		print("Transmit Command: \(command.encode().map { String(format: "%02x", $0) }.joined(separator: ","))")
 		let transmitData = command.encodeToTransmit()
 		self.serialPort.send(transmitData)
-		//print("Transmitted: \(transmitData.map { String(format: "%02d", $0) }.joined(separator: ","))")
+		//print("Transmitted: \(transmitData.map { String(format: "%02x", $0) }.joined(separator: ","))")
 	}
 	
 	var receivingPacket: Data = Data()
 	var receivedControlCharacter: Bool = false
 	
-	func receive(rawData:Data)
+	func receive(rawData:Data) -> JBCStationCommand?
 	{
+		var returnCommand: JBCStationCommand? = nil
 		for oneByte in rawData
 		{
 			//print("\"\(String(format:"%02d", oneByte))\"")
@@ -123,10 +157,10 @@ import ORSSerial
 					// It was, so start a new message.
 					if receivingPacket.count > 0
 					{
-						print("Received packet: \(receivingPacket.map { String(format: "%02d", $0) }.joined(separator: ","))")
+						print("Received packet: \(receivingPacket.map { String(format: "%02x", $0) }.joined(separator: ","))")
 						do
 						{
-							try receivedCommand(JBCStationCommand.command(fromReceivedPacket: receivingPacket, received: true, version: .protocolTwo))
+							returnCommand = try JBCStationCommand.command(fromReceivedPacket: receivingPacket, received: true, version: .protocolTwo)
 						}
 						catch
 						{
@@ -138,52 +172,108 @@ import ORSSerial
 				receivedControlCharacter = false
 			}
 		}
+		return returnCommand
 	}
 	
-	func receivedCommand(_ command: JBCStationCommand)
+	func receivedCommand(_ command: JBCStationCommand) -> Bool
 	{
-		guard command.targetDevice == sourceAddress ||
-				command.command == .handshake else
+		var handledCommand: Bool = false
+		switch command.command
 		{
-			print("Ignoring broadcast: \(command)")
-			return
-		}
-		
-		switch command.command {
 		case .handshake:
-			if command.FID == 253 && // Magic number?
+			if handshakeState == .notStarted &&
+				command.FID == 253 && // Magic number?
 				command.targetDevice == 0 && // Broadcast
 				sourceAddress == 0 && // If these are both 0, we haven't handled the handshake broadcast yet
 				targetAddress == 0 &&
 				command.dataField.count == 1 &&
 				command.dataField[0] == JBCStationCommand.Command.discover.rawValue
 			{
-				// Acknowledge the device's desired address
+				// We reply to the handshake broadcast with an ACK in the payload, but the main command is still "handshake".
+				// The device's address is XOR'd by 80 for the source of this response - unclear if that's a magic number of if that's us choosing
+				// what our address will ultimately be.
+				var data: Data = Data()
+				data.append(JBCStationCommand.Command.ack.rawValue)
+				try? sendCommand(formCommand(FID: 253, command: .handshake, data: data, overrideTargetAddress: command.sourceDevice ^ 0x80))
+				// Immedaitely followup with a firmware request.
+				try? sendCommand(formCommand(FID: 237, command: .firmware, overrideTargetAddress: command.sourceDevice))
+				// Accept the device's address AFTER sending the above
 				targetAddress = command.sourceDevice
-				var data: Data = Data()
-				sourceAddress = 16
-				data.append(sourceAddress)
-				sendCommand(formCommand(FID: 253, command: .handshake, data: data))
+				handshakeState = .waitingForFW
+				handledCommand = true
 			}
-			else if command.FID == 253 &&
-					command.sourceDevice == targetAddress &&
-					command.dataField.count == 1 &&
-					command.dataField[0] == JBCStationCommand.Command.ack.rawValue
+			else if handshakeState == .complete
 			{
-				// We're given our final address in this packet
-				sourceAddress = command.targetDevice
-				/*
-				 // Under some conditions this appears to be done, but unclear to me what they are...
-				var data: Data = Data()
-				data.append(6)
-				sendCommand(formCommand(FID: 253, command: .handshake, data: data, overrideSourceAddress: sourceAddress ^ 0x80)) // Weird magic values everywhere... This appears to get us back to the 16 we were originally using?
-				 */
-				//sendCommand(formCommand(FID: 237, command: .firmware))
-				sendCommand(formCommand(FID: 237, command: .deviceID))
+				// Just "eat" the command.
+				handledCommand = true
+			}
+		case .firmware:
+			if command.FID == 237
+			{
+				guard let firmwareResponse: String = String(data:command.dataField, encoding: .ascii)
+				else {
+					print("Failed to parse FIRMWARE payload.")
+					return handledCommand
+				}
+				self.rawFirmwareResponse = firmwareResponse
+				
+				if handshakeState == .waitingForFW
+				{
+					// This came back as part of the handshake process, move along in that process.
+					// Start the FID counter from 0
+					lastSentFID = 0
+					targetAddress = 0
+					try? sendCommand(formCommand(command: .deviceID, overrideTargetAddress: command.sourceDevice))
+					targetAddress = command.sourceDevice
+					handshakeState = .waitingForDeviceID
+				}
+				handledCommand = true
+			}
+		case .deviceID:
+			guard let deviceID: String = String(data:command.dataField, encoding: .ascii)
+			else {
+				print("Failed to parse DEVICEID payload.")
+				return handledCommand
+			}
+			self.rawDeviceIDResponse = deviceID
+			handledCommand = true
+			
+			if handshakeState == .waitingForDeviceID
+			{
+				// Send an ACK
+				targetAddress = 0
+				try? sendCommand(formCommand(command: .ack, overrideTargetAddress: command.sourceDevice))
+				targetAddress = command.sourceDevice
+				// And expect one in turn
+				handshakeState = .waitingForAck
+			}
+		case .ack:
+			if handshakeState == .waitingForAck &&
+				lastSentFID == command.FID
+			{
+				handledCommand = true
+
+				if command.dataField.count == 1 &&
+					command.dataField[0] == JBCStationCommand.Command.ack.rawValue
+				{
+					// Accept our address, handshake complete!
+					sourceAddress = command.targetDevice
+					handshakeState = .complete
+					state = .jbcToolFound
+				}
+				else
+				{
+					print("Received bad ACK")
+				}
+			}
+			else
+			{
+				print("Unexpected ACK received")
 			}
 		default:
-			print("Unhandled command \(command.command)")
+			break
 		}
+		return handledCommand
 	}
 	
 	func verifyCheck(_ checksumData: Data) -> Bool

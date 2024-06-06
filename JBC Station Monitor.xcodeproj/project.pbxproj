@@ -20,6 +20,13 @@
 		07A6EF6B2C0D3A920003AD7E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 07A6EF6A2C0D3A920003AD7E /* Localizable.xcstrings */; };
 		07A6EF6D2C0D4A120003AD7E /* JBCStationCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF6C2C0D4A120003AD7E /* JBCStationCommand.swift */; };
 		07A6EF6F2C0D70D90003AD7E /* JBCSerialPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF6E2C0D70D90003AD7E /* JBCSerialPort.swift */; };
+		07A6EF712C112B9A0003AD7E /* JBCStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF702C112B9A0003AD7E /* JBCStation.swift */; };
+		07A6EF732C112BBD0003AD7E /* JBCHotAirStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF722C112BBD0003AD7E /* JBCHotAirStation.swift */; };
+		07A6EF752C112BEA0003AD7E /* JBCSolderStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF742C112BEA0003AD7E /* JBCSolderStation.swift */; };
+		07A6EF772C112F2C0003AD7E /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF762C112F2B0003AD7E /* Utils.swift */; };
+		07A6EF792C113BCE0003AD7E /* JBCStationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF782C113BCE0003AD7E /* JBCStationView.swift */; };
+		07A6EF7B2C1187190003AD7E /* JBCStationPort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF7A2C1187190003AD7E /* JBCStationPort.swift */; };
+		07A6EF7D2C1188180003AD7E /* JBCStationPortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF7C2C1188180003AD7E /* JBCStationPortView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +64,13 @@
 		07A6EF6A2C0D3A920003AD7E /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		07A6EF6C2C0D4A120003AD7E /* JBCStationCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCStationCommand.swift; sourceTree = "<group>"; };
 		07A6EF6E2C0D70D90003AD7E /* JBCSerialPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCSerialPort.swift; sourceTree = "<group>"; };
+		07A6EF702C112B9A0003AD7E /* JBCStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCStation.swift; sourceTree = "<group>"; };
+		07A6EF722C112BBD0003AD7E /* JBCHotAirStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCHotAirStation.swift; sourceTree = "<group>"; };
+		07A6EF742C112BEA0003AD7E /* JBCSolderStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCSolderStation.swift; sourceTree = "<group>"; };
+		07A6EF762C112F2B0003AD7E /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		07A6EF782C113BCE0003AD7E /* JBCStationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCStationView.swift; sourceTree = "<group>"; };
+		07A6EF7A2C1187190003AD7E /* JBCStationPort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCStationPort.swift; sourceTree = "<group>"; };
+		07A6EF7C2C1188180003AD7E /* JBCStationPortView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCStationPortView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +163,8 @@
 			children = (
 				07A6EF332C0D31F40003AD7E /* JBC_Station_MonitorApp.swift */,
 				07A6EF352C0D31F40003AD7E /* MainWindowContentView.swift */,
+				07A6EF782C113BCE0003AD7E /* JBCStationView.swift */,
+				07A6EF7C2C1188180003AD7E /* JBCStationPortView.swift */,
 				07A6EF682C0D395A0003AD7E /* SerialPortView.swift */,
 			);
 			path = UI;
@@ -159,7 +175,12 @@
 			children = (
 				07A6EF632C0D336A0003AD7E /* SerialManager.swift */,
 				07A6EF6E2C0D70D90003AD7E /* JBCSerialPort.swift */,
+				07A6EF702C112B9A0003AD7E /* JBCStation.swift */,
+				07A6EF7A2C1187190003AD7E /* JBCStationPort.swift */,
+				07A6EF722C112BBD0003AD7E /* JBCHotAirStation.swift */,
+				07A6EF742C112BEA0003AD7E /* JBCSolderStation.swift */,
 				07A6EF6C2C0D4A120003AD7E /* JBCStationCommand.swift */,
+				07A6EF762C112F2B0003AD7E /* Utils.swift */,
 			);
 			path = "JBC Data";
 			sourceTree = "<group>";
@@ -302,10 +323,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07A6EF7D2C1188180003AD7E /* JBCStationPortView.swift in Sources */,
+				07A6EF792C113BCE0003AD7E /* JBCStationView.swift in Sources */,
 				07A6EF642C0D336A0003AD7E /* SerialManager.swift in Sources */,
+				07A6EF732C112BBD0003AD7E /* JBCHotAirStation.swift in Sources */,
 				07A6EF362C0D31F40003AD7E /* MainWindowContentView.swift in Sources */,
 				07A6EF342C0D31F40003AD7E /* JBC_Station_MonitorApp.swift in Sources */,
 				07A6EF6D2C0D4A120003AD7E /* JBCStationCommand.swift in Sources */,
+				07A6EF772C112F2C0003AD7E /* Utils.swift in Sources */,
+				07A6EF752C112BEA0003AD7E /* JBCSolderStation.swift in Sources */,
+				07A6EF712C112B9A0003AD7E /* JBCStation.swift in Sources */,
+				07A6EF7B2C1187190003AD7E /* JBCStationPort.swift in Sources */,
 				07A6EF6F2C0D70D90003AD7E /* JBCSerialPort.swift in Sources */,
 				07A6EF692C0D395A0003AD7E /* SerialPortView.swift in Sources */,
 			);

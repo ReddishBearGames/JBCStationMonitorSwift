@@ -31,6 +31,7 @@ struct JBCStationCommand
 		case deviceID = 30 // Seems to be something like a UUID? Serial?
 		case reset = 32
 		case firmware = 33
+		case portInfo = 48
 	}
 	
 	var protocolVersion: ProtocolVersion = .protocolTwo
@@ -128,10 +129,10 @@ struct JBCStationCommand
 	{
 		let encodedCommand = encode()
 		var ReturnMe: Data = Data()
-		for oneByte in encodedCommand
+		for (index,oneByte) in encodedCommand.enumerated()
 		{
-			if oneByte == JBCStationCommand.startField ||
-				oneByte == JBCStationCommand.stopField ||
+			if (oneByte == JBCStationCommand.startField && index == 0) ||
+				(oneByte == JBCStationCommand.stopField  && index == encodedCommand.count - 1) ||
 				oneByte == JBCStationCommand.controlField
 			{
 				// If the byte is the start or stop fields, we need to send the control character.

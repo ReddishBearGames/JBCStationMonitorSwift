@@ -20,7 +20,12 @@ struct MainWindowContentView: View
 			{
 				LazyVStack(alignment: .leading)
 				{
-					
+					ForEach(serialManager.knownStations, id: \.id)
+					{ jbcStation in
+						JBCStationView(jbcStation: jbcStation)
+							.frame(maxWidth: .infinity)
+					}
+
 					let ports : [JBCSerialPort] = serialManager.knownPorts.filter({ $0.state != .jbcToolFound })
 					
 					ForEach(ports, id: \.id)

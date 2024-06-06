@@ -14,6 +14,9 @@
     "Found %lld serial ports." : {
 
     },
+    "Hello, World!" : {
+
+    },
     "JBC_SERIALPORT_STATE_INITIALIZING" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -47,6 +50,28 @@
         }
       }
     },
+    "JBC_STATION_TYPE_HOTAIR_%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Hot Air Rework Station"
+          }
+        }
+      }
+    },
+    "JBC_STATION_TYPE_SOLDERING_%@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ Soldering Station"
+          }
+        }
+      }
+    },
     "SERIAL_VIEW_PRODUCT_LABEL" : {
       "localizations" : {
         "en" : {
@@ -73,6 +98,46 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vendor ID:"
+          }
+        }
+      }
+    },
+    "STATION_CONNECTEDON_LABEL_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected on Serial Port %@"
+          }
+        }
+      }
+    },
+    "STATION_DEVICEID_LABEL_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Device ID: %@"
+          }
+        }
+      }
+    },
+    "STATION_FIRMWARE_LABEL_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Firmware Version: %@"
+          }
+        }
+      }
+    },
+    "STATION_HARDWARE_LABEL_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hardware Version: %@"
           }
         }
       }

@@ -11,7 +11,7 @@ import ORSSerial
 @Observable class SerialManager: NSObject, ORSSerialPortDelegate
 {
 	var knownPorts: [JBCSerialPort] = [JBCSerialPort]()
-	// var knownTools: [JBCStation] = [JBCStation]()
+	var knownStations: [JBCStation] = [JBCStation]()
 	
 	init(createFake : Bool = false)
 	{
@@ -46,9 +46,44 @@ import ORSSerial
 	// Port delegate callbacks
 	func serialPort(_ serialPort: ORSSerialPort, didReceive data: Data)
 	{
-		if let jbcSerial: JBCSerialPort = knownPorts.first(where: { $0.serialPort == serialPort } )
+		// We SHOULD always have a serial port that matches
+		let jbcSerial: JBCSerialPort? = knownPorts.first(where: { $0.serialPort == serialPort } )
+		// Stations are spawned from serial ports if succesfully opened. We may or may not have one yet.
+		let jbcStation: JBCStation? = knownStations.first(where: { $0.serialPort.serialPort == serialPort } )
+		// Retrieve the command if any, preferring the station as a "higher level" entity
+		if let jbcStation,
+			let jbcSerial
 		{
-			jbcSerial.receive(rawData:data)
+			if let command = jbcStation.receive(rawData: data)
+			{
+				if !jbcSerial.receivedCommand(command)
+				{
+					if !jbcStation.receivedCommand(command)
+					{
+						print("Unhandled command stage: \(command.command)")
+					}
+				}
+			}
+		}
+		else if let jbcSerial
+		{
+			if let command = jbcSerial.receive(rawData: data)
+			{
+				if jbcSerial.receivedCommand(command)
+				{
+					if jbcSerial.handshakeState == .complete
+					{
+						if let newStation = JBCStation.CreateStation(serialPort: jbcSerial, rawFirmware:jbcSerial.rawFirmwareResponse ?? "", rawDeviceID:jbcSerial.rawDeviceIDResponse ?? "")
+						{
+							knownStations.append(newStation)
+						}
+					}
+				}
+				else
+				{
+					print("Unhandled command at serial stage: \(command.command)")
+				}
+			}
 		}
 	}
 	
