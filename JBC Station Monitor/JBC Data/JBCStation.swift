@@ -54,7 +54,6 @@ import Foundation
 		self.firmwareVersion = firmwareVersion
 		self.hardwareVersion = hardwareVersion
 		self.deviceID = deviceID
-		setupPorts()
 	}
 	
 	static func CreateStation(serialPort: JBCSerialPort, rawFirmware:String, rawDeviceID:String) -> JBCStation?
@@ -76,21 +75,39 @@ import Foundation
 		return newStation
 	}
 
-	func setupPorts()
+	func start()
 	{
-		var portNum: Data = Data()
-		portNum.append(UInt8(1))
-		try? self.serialPort.sendCommand(self.serialPort.formCommand(command: .portInfo, data: portNum))
+		setupPorts()
 	}
 	
-	func receive(rawData:Data) -> JBCStationCommand?
+	func setupPorts()
+	{
+		var portNumData: Data = Data()
+		for portNum in 0...3
+		{
+			portNumData.removeAll()
+			portNumData.append(UInt8(portNum))
+			try? self.serialPort.sendCommand(self.serialPort.formCommand(command: .portInfo, data: portNumData))
+		}
+	}
+	
+	func receive(rawData:Data) -> [JBCStationCommand]
 	{
 		return self.serialPort.receive(rawData: rawData)
 	}
 
 	func receivedCommand(_ command: JBCStationCommand) -> Bool
 	{
-		return false
+		var handled: Bool = true
+		if command.command == .nack
+		{
+			print("Received NACK: \(command.dataField.map { String(format: "%02x", $0) }.joined(separator: ","))")
+		}
+		else
+		{
+			handled = false
+		}
+		return handled
 	}
 	
 }

@@ -25,13 +25,13 @@ struct JBCStationCommand
 		case handshake = 0
 		case endOfTransmission = 4
 		case ack = 6
-		case nack = 21
+		case nack = 21 // 0x15
 		case syn = 22
 		case discover = 29
 		case deviceID = 30 // Seems to be something like a UUID? Serial?
 		case reset = 32
 		case firmware = 33
-		case portInfo = 48
+		case portInfo = 48 // 0x30
 	}
 	
 	var protocolVersion: ProtocolVersion = .protocolTwo

@@ -54,34 +54,37 @@ import ORSSerial
 		if let jbcStation,
 			let jbcSerial
 		{
-			if let command = jbcStation.receive(rawData: data)
+			let commands = jbcStation.receive(rawData: data)
+			for oneCommand in commands
 			{
-				if !jbcSerial.receivedCommand(command)
+				if !jbcSerial.receivedCommand(oneCommand)
 				{
-					if !jbcStation.receivedCommand(command)
+					if !jbcStation.receivedCommand(oneCommand)
 					{
-						print("Unhandled command stage: \(command.command)")
+						print("Unhandled command stage: \(oneCommand.command) Data: \(oneCommand.encode().map { String(format: "%02x", $0) }.joined(separator: ","))")
 					}
 				}
 			}
 		}
 		else if let jbcSerial
 		{
-			if let command = jbcSerial.receive(rawData: data)
+			let commands = jbcSerial.receive(rawData: data)
+			for oneCommand in commands
 			{
-				if jbcSerial.receivedCommand(command)
+				if jbcSerial.receivedCommand(oneCommand)
 				{
 					if jbcSerial.handshakeState == .complete
 					{
 						if let newStation = JBCStation.CreateStation(serialPort: jbcSerial, rawFirmware:jbcSerial.rawFirmwareResponse ?? "", rawDeviceID:jbcSerial.rawDeviceIDResponse ?? "")
 						{
 							knownStations.append(newStation)
+							newStation.start()
 						}
 					}
 				}
 				else
 				{
-					print("Unhandled command at serial stage: \(command.command)")
+					print("Unhandled command at serial stage: \(oneCommand.command)")
 				}
 			}
 		}

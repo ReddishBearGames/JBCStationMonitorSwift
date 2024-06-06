@@ -128,9 +128,9 @@ import ORSSerial
 	var receivingPacket: Data = Data()
 	var receivedControlCharacter: Bool = false
 	
-	func receive(rawData:Data) -> JBCStationCommand?
+	func receive(rawData:Data) -> [JBCStationCommand]
 	{
-		var returnCommand: JBCStationCommand? = nil
+		var returnCommands = [JBCStationCommand]()
 		for oneByte in rawData
 		{
 			//print("\"\(String(format:"%02d", oneByte))\"")
@@ -160,7 +160,8 @@ import ORSSerial
 						print("Received packet: \(receivingPacket.map { String(format: "%02x", $0) }.joined(separator: ","))")
 						do
 						{
-							returnCommand = try JBCStationCommand.command(fromReceivedPacket: receivingPacket, received: true, version: .protocolTwo)
+							let newReturnCommand = try JBCStationCommand.command(fromReceivedPacket: receivingPacket, received: true, version: .protocolTwo)
+							returnCommands.append(newReturnCommand)
 						}
 						catch
 						{
@@ -172,7 +173,7 @@ import ORSSerial
 				receivedControlCharacter = false
 			}
 		}
-		return returnCommand
+		return returnCommands
 	}
 	
 	func receivedCommand(_ command: JBCStationCommand) -> Bool
