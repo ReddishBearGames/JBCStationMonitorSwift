@@ -61,7 +61,7 @@ import ORSSerial
 				{
 					if !jbcStation.receivedCommand(oneCommand)
 					{
-						print("Unhandled command stage: \(oneCommand.command) Data: \(oneCommand.encode().map { String(format: "%02x", $0) }.joined(separator: ","))")
+						print("Unhandled command reply: \(oneCommand.command) Data: \(oneCommand.encode().map { String(format: "%02x", $0) }.joined(separator: ","))")
 					}
 				}
 			}
@@ -84,7 +84,7 @@ import ORSSerial
 				}
 				else
 				{
-					print("Unhandled command at serial stage: \(oneCommand.command)")
+					print("Unhandled command reply at serial stage: \(oneCommand.command)")
 				}
 			}
 		}

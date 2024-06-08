@@ -20,3 +20,38 @@ func withContinousObservation<T>(of value: @escaping @autoclosure () -> T, execu
 		}
 	}
 }
+
+public enum Endian
+{
+	case big, little
+}
+
+protocol IntegerTransform: Sequence where Element: FixedWidthInteger 
+{
+	func toInteger<I: FixedWidthInteger>(endian: Endian) -> I
+}
+
+extension IntegerTransform 
+{
+	func toInteger<I: FixedWidthInteger>(endian: Endian) -> I 
+	{
+		let f = { (accum: I, next: Element) in accum &<< next.bitWidth | I(next) }
+		return endian == .big ? reduce(0, f) : reversed().reduce(0, f)
+	}
+}
+
+extension Data: IntegerTransform {}
+extension Array: IntegerTransform where Element: FixedWidthInteger {}
+
+public extension FixedWidthInteger 
+{
+	var bigEndianBytes: [UInt8]
+	{
+		withUnsafeBytes(of: bigEndian, Array.init)
+	}
+	
+	var littleEndianBytes: [UInt8]
+	{
+		withUnsafeBytes(of: littleEndian, Array.init)
+	}
+}

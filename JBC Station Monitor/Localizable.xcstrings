@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%u°" : {
+
+    },
     "BUTTON_OPEN_PORT" : {
       "localizations" : {
         "en" : {
@@ -12,9 +15,6 @@
       }
     },
     "Found %lld serial ports." : {
-
-    },
-    "Hello, World!" : {
 
     },
     "JBC_SERIALPORT_STATE_INITIALIZING" : {
@@ -50,6 +50,17 @@
         }
       }
     },
+    "JBC_SOLDERING_TOOL_STATUS_HIBERNATION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hibernating"
+          }
+        }
+      }
+    },
     "JBC_STATION_TYPE_HOTAIR_%@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -68,6 +79,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Soldering Station"
+          }
+        }
+      }
+    },
+    "JBC_TOOL_TYPE_MICROSOLDERING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "T210 Micro-Soldering Iron"
+          }
+        }
+      }
+    },
+    "JBC_TOOL_TYPE_MICROTWEEZERS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PA Micro-Soldering Tweezers"
+          }
+        }
+      }
+    },
+    "PORT_LABEL %u" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Port %u"
           }
         }
       }
@@ -138,6 +181,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hardware Version: %@"
+          }
+        }
+      }
+    },
+    "STATION_NAME_LABEL_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station Name: %@"
+          }
+        }
+      }
+    },
+    "STATION_UNNAMED_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station is not named"
+          }
+        }
+      }
+    },
+    "TEMPERATURE_PRESETS_DISABLED_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(Disabled)"
+          }
+        }
+      }
+    },
+    "TEMPERATURE_PRESETS_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Temperature Level Presets"
+          }
+        }
+      }
+    },
+    "TOOL_STATUS_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tool Status: %@"
+          }
+        }
+      }
+    },
+    "TOOL_TYPE_LABEL_%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tool Type: %@"
           }
         }
       }

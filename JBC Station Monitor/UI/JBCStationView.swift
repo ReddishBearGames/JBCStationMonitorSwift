@@ -24,6 +24,14 @@ struct JBCStationView: View
 				VStack(alignment: .trailing)
 				{
 					Text("STATION_CONNECTEDON_LABEL_\(jbcStation.serialPort.serialPort.name)")
+					if let stationName = jbcStation.name
+					{
+						Text("STATION_NAME_LABEL_\(stationName)")
+					}
+					else
+					{
+						Text("STATION_UNNAMED_LABEL")
+					}
 					Text("STATION_FIRMWARE_LABEL_\(jbcStation.firmwareVersion)")
 					Text("STATION_HARDWARE_LABEL_\(jbcStation.hardwareVersion)")
 					Text("STATION_DEVICEID_LABEL_\(jbcStation.deviceID)")

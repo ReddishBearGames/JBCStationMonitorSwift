@@ -32,11 +32,15 @@ struct JBCStationCommand
 		case reset = 32
 		case firmware = 33
 		case portInfo = 48 // 0x30
+		case toolStatus = 87 // 0x57
+		case stationName = 177 // 0xB1
+		
+		case solderCommand = 250 // Use the solderCommand field instead
 	}
 	
 	var protocolVersion: ProtocolVersion = .protocolTwo
 	var FID: UInt8 // What is this?
-	var command: Command
+	var command: UInt8 // Why not the Command enum? Because different stations have different command subsets unfortunately...
 	var sourceDevice: UInt8
 	var targetDevice: UInt8
 	var dataField: Data
@@ -60,7 +64,6 @@ struct JBCStationCommand
 		}
 	}
 	
-	
 	static func command(fromReceivedPacket packet: Data, received: Bool, version: ProtocolVersion) throws -> JBCStationCommand
 	{
 		guard packet.count >= minimumPacketLength(version: version),
@@ -73,10 +76,7 @@ struct JBCStationCommand
 		let targetAddress: UInt8 = packet[received ? 1 : 2]
 		let sourceAddress: UInt8 = packet[received ? 2 : 1]
 		let FID: UInt8 = packet[3]
-		guard let command: Command = Command(rawValue: packet[4]) else
-		{
-			throw CommandError.malformedPacket("Unrecognized command: \(packet[4])")
-		}
+		let command: UInt8 = packet[4]
 		let dataLength: UInt8 = packet[5]
 		guard packet.count == minimumPacketLength(version: version) + UInt(dataLength) else
 		{
@@ -111,7 +111,7 @@ struct JBCStationCommand
 		{
 			ReturnMe.append(FID)
 		}
-		ReturnMe.append(command.rawValue)
+		ReturnMe.append(command)
 		ReturnMe.append(UInt8(dataField.count))
 		ReturnMe.append(dataField)
 		ReturnMe.append(JBCStationCommand.stopField)

@@ -38,6 +38,18 @@ import ORSSerial
 		}
 	}
 	
+	enum CommunicationError: UInt8
+	{
+		case bcc = 1
+		case format = 2
+		case outOfRange = 3
+		case control = 4
+		case robotMode = 5
+		case stationModel = 6
+		case unknown = 255
+	}
+	
+	
 	enum HandshakeStage
 	{
 		case notStarted
@@ -90,7 +102,14 @@ import ORSSerial
 		self.serialPort.open()
 	}
 	
-	public func formCommand(FID: UInt8? = nil, command: JBCStationCommand.Command, data: Data = Data(), overrideTargetAddress: UInt8? = nil) throws -> JBCStationCommand
+	// Convenience for passing a station command directly.
+	public func formCommand(FID: UInt8? = nil, stationCommand: JBCStationCommand.Command, data: Data = Data(), overrideTargetAddress: UInt8? = nil) throws -> JBCStationCommand
+	{
+		return try formCommand(FID:FID, command: stationCommand.rawValue, data: data, overrideTargetAddress: overrideTargetAddress)
+	}
+
+	
+	public func formCommand(FID: UInt8? = nil, command: UInt8, data: Data = Data(), overrideTargetAddress: UInt8? = nil) throws -> JBCStationCommand
 	{
 		var useFID: UInt8? = FID
 		if useFID == nil
@@ -179,100 +198,103 @@ import ORSSerial
 	func receivedCommand(_ command: JBCStationCommand) -> Bool
 	{
 		var handledCommand: Bool = false
-		switch command.command
+		if let stationCommand = JBCStationCommand.Command(rawValue: command.command)
 		{
-		case .handshake:
-			if handshakeState == .notStarted &&
-				command.FID == 253 && // Magic number?
-				command.targetDevice == 0 && // Broadcast
-				sourceAddress == 0 && // If these are both 0, we haven't handled the handshake broadcast yet
-				targetAddress == 0 &&
-				command.dataField.count == 1 &&
-				command.dataField[0] == JBCStationCommand.Command.discover.rawValue
+			switch stationCommand
 			{
-				// We reply to the handshake broadcast with an ACK in the payload, but the main command is still "handshake".
-				// The device's address is XOR'd by 80 for the source of this response - unclear if that's a magic number of if that's us choosing
-				// what our address will ultimately be.
-				var data: Data = Data()
-				data.append(JBCStationCommand.Command.ack.rawValue)
-				try? sendCommand(formCommand(FID: 253, command: .handshake, data: data, overrideTargetAddress: command.sourceDevice ^ 0x80))
-				// Immedaitely followup with a firmware request.
-				try? sendCommand(formCommand(FID: 237, command: .firmware, overrideTargetAddress: command.sourceDevice))
-				// Accept the device's address AFTER sending the above
-				targetAddress = command.sourceDevice
-				handshakeState = .waitingForFW
-				handledCommand = true
-			}
-			else if handshakeState == .complete
-			{
-				// Just "eat" the command.
-				handledCommand = true
-			}
-		case .firmware:
-			if command.FID == 237
-			{
-				guard let firmwareResponse: String = String(data:command.dataField, encoding: .ascii)
+			case .handshake:
+				if handshakeState == .notStarted &&
+					command.FID == 253 && // Magic number?
+					command.targetDevice == 0 && // Broadcast
+					sourceAddress == 0 && // If these are both 0, we haven't handled the handshake broadcast yet
+					targetAddress == 0 &&
+					command.dataField.count == 1 &&
+					command.dataField[0] == JBCStationCommand.Command.discover.rawValue
+				{
+					// We reply to the handshake broadcast with an ACK in the payload, but the main command is still "handshake".
+					// The device's address is XOR'd by 80 for the source of this response - unclear if that's a magic number of if that's us choosing
+					// what our address will ultimately be.
+					var data: Data = Data()
+					data.append(JBCStationCommand.Command.ack.rawValue)
+					try? sendCommand(formCommand(FID: 253, stationCommand: .handshake, data: data, overrideTargetAddress: command.sourceDevice ^ 0x80))
+					// Immedaitely followup with a firmware request.
+					try? sendCommand(formCommand(FID: 237, stationCommand: .firmware, overrideTargetAddress: command.sourceDevice))
+					// Accept the device's address AFTER sending the above
+					targetAddress = command.sourceDevice
+					handshakeState = .waitingForFW
+					handledCommand = true
+				}
+				else if handshakeState == .complete
+				{
+					// Just "eat" the command.
+					handledCommand = true
+				}
+			case .firmware:
+				if command.FID == 237
+				{
+					guard let firmwareResponse: String = String(data:command.dataField, encoding: .ascii)
+					else {
+						print("Failed to parse FIRMWARE payload.")
+						return handledCommand
+					}
+					self.rawFirmwareResponse = firmwareResponse
+					
+					if handshakeState == .waitingForFW
+					{
+						// This came back as part of the handshake process, move along in that process.
+						// Start the FID counter from 0
+						lastSentFID = 0
+						targetAddress = 0
+						try? sendCommand(formCommand(stationCommand: .deviceID, overrideTargetAddress: command.sourceDevice))
+						targetAddress = command.sourceDevice
+						handshakeState = .waitingForDeviceID
+					}
+					handledCommand = true
+				}
+			case .deviceID:
+				guard let deviceID: String = String(data:command.dataField, encoding: .ascii)
 				else {
-					print("Failed to parse FIRMWARE payload.")
+					print("Failed to parse DEVICEID payload.")
 					return handledCommand
 				}
-				self.rawFirmwareResponse = firmwareResponse
+				self.rawDeviceIDResponse = deviceID
+				handledCommand = true
 				
-				if handshakeState == .waitingForFW
+				if handshakeState == .waitingForDeviceID
 				{
-					// This came back as part of the handshake process, move along in that process.
-					// Start the FID counter from 0
-					lastSentFID = 0
+					// Send an ACK
 					targetAddress = 0
-					try? sendCommand(formCommand(command: .deviceID, overrideTargetAddress: command.sourceDevice))
+					try? sendCommand(formCommand(stationCommand: .ack, overrideTargetAddress: command.sourceDevice))
 					targetAddress = command.sourceDevice
-					handshakeState = .waitingForDeviceID
+					// And expect one in turn
+					handshakeState = .waitingForAck
 				}
-				handledCommand = true
-			}
-		case .deviceID:
-			guard let deviceID: String = String(data:command.dataField, encoding: .ascii)
-			else {
-				print("Failed to parse DEVICEID payload.")
-				return handledCommand
-			}
-			self.rawDeviceIDResponse = deviceID
-			handledCommand = true
-			
-			if handshakeState == .waitingForDeviceID
-			{
-				// Send an ACK
-				targetAddress = 0
-				try? sendCommand(formCommand(command: .ack, overrideTargetAddress: command.sourceDevice))
-				targetAddress = command.sourceDevice
-				// And expect one in turn
-				handshakeState = .waitingForAck
-			}
-		case .ack:
-			if handshakeState == .waitingForAck &&
-				lastSentFID == command.FID
-			{
-				handledCommand = true
-
-				if command.dataField.count == 1 &&
-					command.dataField[0] == JBCStationCommand.Command.ack.rawValue
+			case .ack:
+				if handshakeState == .waitingForAck &&
+					lastSentFID == command.FID
 				{
-					// Accept our address, handshake complete!
-					sourceAddress = command.targetDevice
-					handshakeState = .complete
-					state = .jbcToolFound
+					handledCommand = true
+					
+					if command.dataField.count == 1 &&
+						command.dataField[0] == JBCStationCommand.Command.ack.rawValue
+					{
+						// Accept our address, handshake complete!
+						sourceAddress = command.targetDevice
+						handshakeState = .complete
+						state = .jbcToolFound
+					}
+					else
+					{
+						print("Received bad ACK")
+					}
 				}
 				else
 				{
-					print("Received bad ACK")
+					print("Unexpected ACK received")
 				}
+			default:
+				break
 			}
-			else
-			{
-				print("Unexpected ACK received")
-			}
-		default:
-			break
 		}
 		return handledCommand
 	}

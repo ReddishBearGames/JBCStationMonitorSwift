@@ -8,6 +8,15 @@
 import Foundation
 
 @Observable class JBCStationPort: Identifiable
-{
+{	
+	var id: UInt8 // Port number
+	var temperaturePresets: TemperaturePresets? = nil	
+
+	let connectedTool: JBCTool
 	
+	init(id: UInt8, connectedTool: JBCTool) 
+	{
+		self.id = id
+		self.connectedTool = connectedTool
+	}
 }
