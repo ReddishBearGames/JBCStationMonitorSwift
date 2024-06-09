@@ -20,10 +20,19 @@ struct JBCStationPortView: View
 		{
 			VStack(alignment: .leading)
 			{
-				Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
 				if let tempPresets = jbcStationPort.temperaturePresets
 				{
+					if tempPresets.useLevels == .off
+					{
+						Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
+							.font(.title3)
+					}
 					PortTempPresetsView(presets: tempPresets)
+				}
+				else
+				{
+					Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
+						.font(.title3)
 				}
 				if jbcStationPort.connectedTool.toolType != .none
 				{

@@ -26,6 +26,7 @@ import Foundation
 	
 	var maxTemp: UInt16 = 0
 	var minTemp: UInt16 = 0
+	var levelsUpdateTimer: Timer? = nil
 	
 	override init?(serialPort: JBCSerialPort,modelName: String, firmwareVersion: String, hardwareVersion: String, deviceID: String)
 	{
@@ -60,8 +61,6 @@ import Foundation
 			switch solderingCommand
 			{
 			case .levelsTemps:
-				// See WriteLevelsTemps for how to parse incoming data
-				// Not clear on what to do with this yet
 				guard command.dataField.count == 13 else
 				{
 					print("Unexpected data length in levelsTemp response")
@@ -72,6 +71,17 @@ import Foundation
 				   let stationPort = stationPorts.first(where: { $0.id == portNum })
 				{
 					stationPort.temperaturePresets = presets
+					if presets.useLevels == .on
+					{
+						// Schedule an update on this periodically, in case the user changes the currently selected preset
+						self.levelsUpdateTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false)
+						{ timer in
+							var portNumData: Data = Data()
+							portNumData.append(portNum)
+							portNumData.append(stationPort.connectedTool.toolType.rawValue)
+							try? self.serialPort.sendCommand(self.serialPort.formCommand(solderStationCommand: .levelsTemps, data: portNumData))
+						}
+					}
 				}
 			//case .cartridge:
 			case .maxTemp:
@@ -81,7 +91,7 @@ import Foundation
 			case .mosTemp:
 				if let tempResponse = try? JBCStationCommand.extractTempAndPortFromCommonResponse(command.dataField)
 				{
-					if let stationPort = stationPorts.first(where: { $0.id == tempResponse.port })
+					if stationPorts.first(where: { $0.id == tempResponse.port }) != nil
 					{
 						print("Reported MOS Temp of \(UTIToCelcius(tempResponse.temperatures[0])) on port \(tempResponse.port)")
 					}

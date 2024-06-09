@@ -173,11 +173,12 @@ import Foundation
 					print("Received selected temperature of different size than expected")
 					return false
 				}
-				let utiTemp: UInt16 = command.dataField[0...1].toInteger(endian: .little)
-				let portNum = command.dataField[2]
-				if let stationPort = stationPorts.first(where: { $0.id == portNum })
+				if let tempResponse = try? JBCStationCommand.extractTempAndPortFromCommonResponse(command.dataField)
 				{
-					stationPort.selectedTemperature = utiTemp
+					if let stationPort = stationPorts.first(where: { $0.id == tempResponse.port })
+					{
+						stationPort.selectedTemperature = tempResponse.temperatures[0]
+					}
 				}
 			case .continuousMode:
 				// It tells us each port in order, so the number of bytes in the payload can vary
