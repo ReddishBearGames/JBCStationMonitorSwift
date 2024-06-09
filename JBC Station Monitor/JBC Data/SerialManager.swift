@@ -52,7 +52,7 @@ import ORSSerial
 		let jbcStation: JBCStation? = knownStations.first(where: { $0.serialPort.serialPort == serialPort } )
 		// Retrieve the command if any, preferring the station as a "higher level" entity
 		if let jbcStation,
-			let jbcSerial
+		   let jbcSerial
 		{
 			let commands = jbcStation.receive(rawData: data)
 			for oneCommand in commands
@@ -61,7 +61,7 @@ import ORSSerial
 				{
 					if !jbcStation.receivedCommand(oneCommand)
 					{
-						print("Unhandled command reply: \(oneCommand.command) Data: \(oneCommand.encode().map { String(format: "%02x", $0) }.joined(separator: ","))")
+						dumpUnhandledCommandReply(oneCommand)
 					}
 				}
 			}
@@ -84,11 +84,57 @@ import ORSSerial
 				}
 				else
 				{
-					print("Unhandled command reply at serial stage: \(oneCommand.command)")
+					dumpUnhandledCommandReply(oneCommand)
 				}
 			}
 		}
 	}
+	
+	func unhandledCommandName(commandByte: UInt8) -> String
+	{
+		// Let's turn the failed command into a string representation of the appropriate enum
+		let failedCommandString: String
+		if let stationCommand: JBCStationCommand.Command = JBCStationCommand.Command(rawValue: commandByte)
+		{
+			failedCommandString = String("JBCStationCommand.Command.\(stationCommand)")
+		}
+		else
+		{
+			let solderCommand: JBCSolderStation.Command? = JBCSolderStation.Command(rawValue: commandByte)
+			if let solderCommand = solderCommand
+			{
+				failedCommandString = String("JBCSolderStation.Command.\(solderCommand)")
+			}
+			else
+			{
+				failedCommandString = "Unknown \(commandByte)"
+			}
+		}
+		return failedCommandString
+	}
+	
+	func dumpUnhandledCommandReply(_ command: JBCStationCommand)
+	{
+		if command.command == JBCStationCommand.Command.nack.rawValue
+		{
+			let failedCommandString = unhandledCommandName(commandByte: command.dataField[1])
+			let failureReason: String
+			if let failureCode: JBCSerialPort.CommunicationError = JBCSerialPort.CommunicationError(rawValue: command.dataField[0])
+			{
+				failureReason = "\(failureCode)"
+			}
+			else
+			{
+				failureReason = "Unknown code: \(command.dataField[0])"
+			}
+			print("Received NACK in response to \(failedCommandString) command. \(failureReason)")
+		}
+		else
+		{
+			print("Unhandled command reply: \(unhandledCommandName(commandByte:command.command)) Data: \(command.encode().map { String(format: "%02x", $0) }.joined(separator: ","))")
+		}
+	}
+
 	
 	func serialPortWasRemovedFromSystem(_ serialPort: ORSSerialPort)
 	{

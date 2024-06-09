@@ -55,3 +55,16 @@ public extension FixedWidthInteger
 		withUnsafeBytes(of: littleEndian, Array.init)
 	}
 }
+
+
+// What is UTI temp? No clue, but it's what JBC stations seem to use.
+func UTIToCelcius(_ utiTemp: UInt16) -> UInt16
+{
+	guard utiTemp != 0 else { return 0 }
+	return utiTemp / 9
+}
+
+func CelciusToUTI(_ celciusTemp: UInt16) -> UInt16
+{
+	return celciusTemp * 9
+}

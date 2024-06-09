@@ -17,7 +17,7 @@ import Foundation
 	override func createNewPort(_ portNum: UInt8, toolType: JBCTool.ToolType)
 	{
 		let newTool = JBCHotairTool(serialPort:self.serialPort, toolType: toolType)
-		let newStationPort = JBCStationPort(id: portNum, connectedTool: newTool)
+		let newStationPort = JBCStationPort(serialPort:self.serialPort, id: portNum, connectedTool: newTool)
 		stationPorts.append(newStationPort)
 	}
 	

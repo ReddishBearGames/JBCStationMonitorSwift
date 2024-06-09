@@ -12,12 +12,20 @@ import Foundation
 	enum Command: UInt8
 	{
 		case levelsTemps = 51 // 0x33
+		case cartridge = 72 // 0x48
+		case tipTemp = 82 // 0x52
+		case mosTemp = 89 // 0x59, Not sure what this actually is
+		case maxTemp = 162 // 0xa2
+		case minTemp = 164 // 0xa4
 	}
 	
 	static func ModelNameIsSolderingStation(_ name: String) -> Bool
 	{
 		return ["DDE"].contains(name)
 	}
+	
+	var maxTemp: UInt16 = 0
+	var minTemp: UInt16 = 0
 	
 	override init?(serialPort: JBCSerialPort,modelName: String, firmwareVersion: String, hardwareVersion: String, deviceID: String)
 	{
@@ -31,13 +39,16 @@ import Foundation
 	override func createNewPort(_ portNum: UInt8, toolType: JBCTool.ToolType)
 	{
 		let newTool = JBCSolderingTool(serialPort: self.serialPort, toolType: toolType)
-		let newStationPort = JBCStationPort(id: portNum, connectedTool: newTool)
+		let newStationPort = JBCStationPort(serialPort:self.serialPort, id: portNum, connectedTool: newTool)
 		stationPorts.append(newStationPort)
 		var portNumData = Data()
 		portNumData.append(portNum)
+		try? self.serialPort.sendCommand(self.serialPort.formCommand(solderStationCommand: .mosTemp, data: portNumData))
+		try? self.serialPort.sendCommand(self.serialPort.formCommand(solderStationCommand: .tipTemp, data: portNumData))
 		portNumData.append(toolType.rawValue)
 		try? self.serialPort.sendCommand(self.serialPort.formCommand(solderStationCommand: .levelsTemps, data: portNumData))
-
+		try? self.serialPort.sendCommand(self.serialPort.formCommand(solderStationCommand: .maxTemp))
+		try? self.serialPort.sendCommand(self.serialPort.formCommand(solderStationCommand: .minTemp))
 	}
 	
 	override func receivedCommand(_ command: JBCStationCommand) -> Bool
@@ -62,6 +73,39 @@ import Foundation
 				{
 					stationPort.temperaturePresets = presets
 				}
+			//case .cartridge:
+			case .maxTemp:
+				maxTemp = command.dataField.toInteger(endian: .little)
+			case .minTemp:
+				minTemp = command.dataField.toInteger(endian: .little)
+			case .mosTemp:
+				if let tempResponse = try? JBCStationCommand.extractTempAndPortFromCommonResponse(command.dataField)
+				{
+					if let stationPort = stationPorts.first(where: { $0.id == tempResponse.port })
+					{
+						print("Reported MOS Temp of \(UTIToCelcius(tempResponse.temperatures[0])) on port \(tempResponse.port)")
+					}
+				}
+				else
+				{
+					return false
+				}
+			case .tipTemp:
+				if let tempResponse = try? JBCStationCommand.extractTempAndPortFromCommonResponse(command.dataField, numTemps: 2)
+				{
+					if let stationPort = stationPorts.first(where: { $0.id == tempResponse.port })
+					{
+						stationPort.connectedTool.tipTemp = tempResponse.temperatures[0]
+						stationPort.connectedTool.tipTwoTemp = tempResponse.temperatures[1]
+					}
+				}
+				else
+				{
+					return false
+				}
+
+
+				
 			default:
 				handled = false
 			}

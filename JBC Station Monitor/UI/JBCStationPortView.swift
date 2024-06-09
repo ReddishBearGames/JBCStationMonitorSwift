@@ -20,6 +20,7 @@ struct JBCStationPortView: View
 		{
 			VStack(alignment: .leading)
 			{
+				Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
 				if let tempPresets = jbcStationPort.temperaturePresets
 				{
 					PortTempPresetsView(presets: tempPresets)
@@ -83,13 +84,13 @@ struct TemperatureLevelView: View
 	{
 		if chosen
 		{
-			Text("\(preset.temperatureInCelsius())\u{00B0}")
+			Text("CELCIUS_TEMPERATURE_DISPLAY\(UTIToCelcius(preset.temperature))")
 				.frame(maxWidth: .infinity)
 				.background(Color.orange.brightness(0.1))
 		}
 		else
 		{
-			Text("\(preset.temperatureInCelsius())\u{00B0}")
+			Text("CELCIUS_TEMPERATURE_DISPLAY\(UTIToCelcius(preset.temperature))")
 				.frame(maxWidth: .infinity)
 		}
 	}

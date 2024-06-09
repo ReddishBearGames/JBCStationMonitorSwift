@@ -69,6 +69,8 @@ import Foundation
 
 	let serialPort: JBCSerialPort?
 	var toolType: ToolType = .none
+	var tipTemp: UInt16 = 0
+	var tipTwoTemp: UInt16 = 0
 	
 	init(serialPort: JBCSerialPort? = nil,toolType: ToolType)
 	{

@@ -31,7 +31,6 @@ import Foundation
 		}
 		
 	}
-
 	
 	let serialPort: JBCSerialPort
 	var modelName: String
@@ -41,6 +40,7 @@ import Foundation
 	var name: String?
 	var stationType: StationType = .unknown("")
 	var stationPorts = [JBCStationPort]()
+	var heartbeatTimer: Timer? = nil
 
 	public var id: UInt32
 	{
@@ -78,19 +78,15 @@ import Foundation
 
 	func start()
 	{
-		try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .stationName))
 		setupPorts()
 	}
 	
 	func setupPorts()
 	{
 		var portNumData: Data = Data()
-		for portNum in 0...3
-		{
-			portNumData.removeAll()
-			portNumData.append(UInt8(portNum))
-			try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .portInfo, data: portNumData))
-		}
+		// Request portInfo on port 1 (index 0). In the response we'll keep incrementing until we get a NACK.
+		portNumData.append(0)
+		try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .portInfo, data: portNumData))
 	}
 	
 	func receive(rawData:Data) -> [JBCStationCommand]
@@ -112,6 +108,8 @@ import Foundation
 				   command.dataField[1] == JBCStationCommand.Command.portInfo.rawValue
 				{
 					// If this NACK is an out-of-range response to a port inquiry that's OK.
+					// This means we've found all our ports.
+					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .continuousMode))
 				}
 				else
 				{
@@ -135,6 +133,11 @@ import Foundation
 					var portNumData: Data = Data()
 					portNumData.append(portNum)
 					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .toolStatus, data: portNumData))
+					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .selectedTemperature, data: portNumData))
+					// Now ask about the next port
+					var nextPortNumData: Data = Data()
+					nextPortNumData.append(portNum + 1)
+					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .portInfo, data: nextPortNumData))
 				}
 				else
 				{
@@ -163,6 +166,78 @@ import Foundation
 				else
 				{
 					print("Station is unnamed")
+				}
+			case .selectedTemperature:
+				guard command.dataField.count == 3 else
+				{
+					print("Received selected temperature of different size than expected")
+					return false
+				}
+				let utiTemp: UInt16 = command.dataField[0...1].toInteger(endian: .little)
+				let portNum = command.dataField[2]
+				if let stationPort = stationPorts.first(where: { $0.id == portNum })
+				{
+					stationPort.selectedTemperature = utiTemp
+				}
+			case .continuousMode:
+				// It tells us each port in order, so the number of bytes in the payload can vary
+				var someOff = false
+				for (index,oneByte) in command.dataField.enumerated()
+				{
+					if let continuousModeSetting = JBCStationPort.ContiunuousModeRate(rawValue: oneByte),
+					   let stationPort = stationPorts.first(where: { $0.id == index })
+					{
+						stationPort.continuousModeRate = continuousModeSetting
+						if continuousModeSetting == .off
+						{
+							someOff = true
+						}
+					}
+					else
+					{
+						print("Unable to set continuous mode rate from port index \(index), value \(oneByte)")
+					}
+				}
+				if someOff
+				{
+					// Continuous mode was off for at least some ports, turn it back on.
+					var portsMask: UInt8 = 0
+					for stationPort in stationPorts
+					{
+						portsMask |= 1 << stationPort.id
+					}
+					var portData: Data = Data()
+					portData.append(JBCStationPort.ContiunuousModeRate.ms10.rawValue)
+					portData.append(portsMask)
+					try? serialPort.sendCommand(serialPort.formCommand(stationCommand: .continuousModeW,data: portData))
+				}
+				heartbeatTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false)
+				{ timer in
+					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .continuousMode))
+				}
+
+			case .continuousModeW:
+				if command.dataField.count == 1,
+				   command.dataField[0] == JBCStationCommand.Command.ack.rawValue
+				{
+					print("Station ACK'd continuous mode request")
+				}
+			case .continuousModeUpdate:
+				let numberOfPorts = (command.dataField.count - 1) / JBCStationCommand.ContinuousModePortUpdateLength
+				for portNum in 0..<numberOfPorts
+				{
+					let fieldStartPos = 1 + portNum * JBCStationCommand.ContinuousModePortUpdateLength
+					let fieldEndPos = fieldStartPos + JBCStationCommand.ContinuousModePortUpdateLength
+					let subfield: Data = Data(command.dataField[fieldStartPos..<fieldEndPos])
+					let utiTipTemp: UInt16 = subfield[0...1].toInteger(endian: .little)
+					let utiTip2Temp: UInt16 = subfield[2...3].toInteger(endian: .little)
+					let status: UInt8 = subfield[JBCStationCommand.ContinuousModePortUpdateToolStatusPosition]
+					if let stationPort = stationPorts.first(where: { $0.id == portNum })
+					{
+						stationPort.connectedTool.tipTemp = utiTipTemp
+						stationPort.connectedTool.tipTwoTemp = utiTip2Temp
+						stationPort.connectedTool.setStatus(rawResponse: status)
+					}
 				}
 			default:
 				handled = false

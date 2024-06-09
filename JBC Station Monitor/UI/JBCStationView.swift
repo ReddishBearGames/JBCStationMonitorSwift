@@ -42,6 +42,10 @@ struct JBCStationView: View
 				
 				VStack
 				{
+					if let jbcSolderStation: JBCSolderStation = jbcStation as? JBCSolderStation
+					{
+						JBCStationMinMaxTempView(jbcStation:jbcSolderStation)
+					}
 					ForEach(jbcStation.stationPorts, id: \.id)
 					{ jbcStationPort in
 						JBCStationPortView(jbcStationPort: jbcStationPort)
@@ -54,7 +58,37 @@ struct JBCStationView: View
     }
 }
 
-#Preview 
+struct JBCStationMinMaxTempView: View
+{
+	var jbcStation: JBCSolderStation
+	
+	var body: some View
+	{
+		GroupBox(label:
+					Label("STATION_TEMP_LIMITS_LABEL", systemImage: "thermometer.high")
+			.font(.title2)
+		)
+		{
+			HStack()
+			{
+				VStack()
+				{
+					Text("MINIMUM_TEMP_LABEL")
+					Text("CELCIUS_TEMPERATURE_DISPLAY\(UTIToCelcius(jbcStation.minTemp))")
+				}
+				.frame(maxWidth: .infinity)
+				VStack()
+				{
+					Text("MAXIMUM_TEMP_LABEL")
+					Text("CELCIUS_TEMPERATURE_DISPLAY\(UTIToCelcius(jbcStation.maxTemp))")
+				}
+				.frame(maxWidth: .infinity)
+			}
+		}
+	}
+}
+
+#Preview
 {
 	JBCStationView(jbcStation: JBCSolderStation(serialPort: JBCSerialPort(serialPort: ORSSerialPort(path: "/dev/cu.usbserial-0001")!),
 																		  modelName: "DDE_Whatever",

@@ -1,15 +1,32 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "%u°" : {
-
-    },
     "BUTTON_OPEN_PORT" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Detect JBC Tool…"
+          }
+        }
+      }
+    },
+    "CELCIUS_TEMPERATURE_DISPLAY%u" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%u°"
+          }
+        }
+      }
+    },
+    "CURRENT_TEMP_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Current Temperature"
           }
         }
       }
@@ -61,6 +78,39 @@
         }
       }
     },
+    "JBC_SOLDERING_TOOL_STATUS_OPERATING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In-Use"
+          }
+        }
+      }
+    },
+    "JBC_SOLDERING_TOOL_STATUS_SLEEP" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sleeping"
+          }
+        }
+      }
+    },
+    "JBC_SOLDERING_TOOL_STATUS_STAND" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Placed in Stand"
+          }
+        }
+      }
+    },
     "JBC_STATION_TYPE_HOTAIR_%@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -105,6 +155,26 @@
         }
       }
     },
+    "MAXIMUM_TEMP_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max"
+          }
+        }
+      }
+    },
+    "MINIMUM_TEMP_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Min"
+          }
+        }
+      }
+    },
     "PORT_LABEL %u" : {
       "localizations" : {
         "en" : {
@@ -141,6 +211,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vendor ID:"
+          }
+        }
+      }
+    },
+    "SET_TEMPERATURE_LABEL_%u" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Set Temperature: %u°"
           }
         }
       }
@@ -191,6 +271,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Station Name: %@"
+          }
+        }
+      }
+    },
+    "STATION_TEMP_LIMITS_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Station Temperature Limit Settings"
           }
         }
       }

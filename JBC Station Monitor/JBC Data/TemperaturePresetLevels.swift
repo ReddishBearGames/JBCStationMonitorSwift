@@ -31,11 +31,6 @@ struct TemperatureLevel: Hashable
 		return data
 	}
 	
-	func temperatureInCelsius() -> UInt16
-	{
-		guard temperature != 0 else { return 0 }
-		return temperature / 9
-	}
 }
 
 struct TemperaturePresets
