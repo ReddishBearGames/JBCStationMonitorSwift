@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import ORSSerial
 
 struct JBCStationPortView: View 
 {
-	var jbcStationPort: JBCStationPort
+	@Environment(JBCStationPort.self) var jbcStationPort: JBCStationPort
 
 	var body: some View
 	{
@@ -20,28 +21,15 @@ struct JBCStationPortView: View
 		{
 			VStack(alignment: .leading)
 			{
-				if let tempPresets = jbcStationPort.temperaturePresets
-				{
-					if tempPresets.useLevels == .off
-					{
-						Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
-							.font(.title3)
-					}
-					PortTempPresetsView(presets: tempPresets)
-				}
-				else
-				{
-					Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
-						.font(.title3)
-				}
-				if jbcStationPort.connectedTool.toolType != .none
-				{
-					Text("TOOL_TYPE_LABEL_\(String(format: NSLocalizedString(jbcStationPort.connectedTool.toolType.localizableKey, comment:"")))")
-				}
-				
 				if let solderingTool = jbcStationPort.connectedTool as? JBCSolderingTool
 				{
-					JBCSolderingToolView(jbcTool: solderingTool)
+					JBCSolderingPortView()
+						.environment(solderingTool)
+				}
+				else if let hotairTool = jbcStationPort.connectedTool as? JBCHotairTool
+				{
+					JBCHotairPortView()
+						.environment(hotairTool)
 				}
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)
@@ -49,6 +37,52 @@ struct JBCStationPortView: View
 	}
 }
 
+struct JBCSolderingPortView : View 
+{
+	@Environment(JBCStationPort.self) var jbcStationPort: JBCStationPort
+	@Environment(JBCSolderingTool.self) var jbcTool: JBCSolderingTool
+	
+	var body: some View
+	{
+		if let tempPresets = jbcStationPort.temperaturePresets
+		{
+			if tempPresets.useLevels == .off
+			{
+				Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
+					.font(.title3)
+			}
+			PortTempPresetsView(presets: tempPresets)
+		}
+		else
+		{
+			Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
+				.font(.title3)
+		}
+		JBCSolderingToolView()
+	}
+}
+
+struct JBCHotairPortView : View
+{
+	@Environment(JBCHotAirStation.self) var jbcStation: JBCHotAirStation
+	@Environment(JBCStationPort.self) var jbcStationPort: JBCStationPort
+	@Environment(JBCHotairTool.self) var jbcTool: JBCHotairTool
+	
+	var body: some View
+	{
+		HStack
+		{
+			Text("SET_TEMPERATURE_LABEL_\(UTIToCelcius(jbcStationPort.selectedTemperature))")
+				.font(.title3)
+				.frame(maxWidth:.infinity)
+			Text("SET_AIRFLOW_LABEL_\((Double(jbcTool.selectedAirflow) / Double(jbcStation.maximumAirflow)) * 100.0)")
+				.font(.title3)
+				.frame(maxWidth:.infinity)
+		}
+		.frame(maxWidth:.infinity)
+		JBCHotairToolView()
+	}
+}
 struct PortTempPresetsView : View
 {
 	var presets: TemperaturePresets
@@ -107,10 +141,24 @@ struct TemperatureLevelView: View
 
 #Preview
 {
-	let stationPort = JBCStationPort(id: 0, connectedTool: JBCTool(toolType: .microSolderingIron))
+	let station = JBCSolderStation(serialPort: JBCSerialPort(serialPort: ORSSerialPort(path: "/dev/cu.usbserial-0001")!),
+															 modelName: "DDE", firmwareVersion: "1234", hardwareVersion: "1234", deviceID: "ABCD")!
+	let stationPort = JBCStationPort(id: 0, connectedTool: JBCSolderingTool(toolType: .solderingIron))
 	let tempResponsePacket: [UInt8] = [0x0,0x0,0x01,0x4e,0x0c,0x01,0x8c,0x0a,0x01,0xca,0x08,0x00,0x01]
 	let tempResponseData: Data = Data(tempResponsePacket)
 	let tempPresets = TemperaturePresets(data: tempResponseData)
 	stationPort.temperaturePresets = tempPresets
-	return JBCStationPortView(jbcStationPort: stationPort)
+	return JBCStationPortView()
+		.environment(station)
+		.environment(stationPort)
+}
+
+#Preview
+{
+	let station = JBCHotAirStation(serialPort: JBCSerialPort(serialPort: ORSSerialPort(path: "/dev/cu.usbserial-0001")!),
+								   modelName: "JTSE", firmwareVersion: "1234", hardwareVersion: "1234", deviceID: "ABCD")!
+	let stationPort = JBCStationPort(id: 0, connectedTool: JBCHotairTool(toolType: .hotair))
+	return JBCStationPortView()
+		.environment(station)
+		.environment(stationPort)
 }

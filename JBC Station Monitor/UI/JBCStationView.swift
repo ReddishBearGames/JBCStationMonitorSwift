@@ -8,7 +8,14 @@
 import SwiftUI
 import ORSSerial
 
-struct JBCStationView: View 
+extension String {
+	func withWideCStr<Result>(_ body: (UnsafePointer<wchar_t>) -> Result) -> Result {
+		let unicode32 = self.unicodeScalars.map { wchar_t(bitPattern: $0.value) } + [0]
+		return unicode32.withUnsafeBufferPointer { body($0.baseAddress!) }
+	}
+}
+
+struct JBCStationView: View
 {
 	var jbcStation: JBCStation
 
@@ -48,7 +55,8 @@ struct JBCStationView: View
 					}
 					ForEach(jbcStation.stationPorts, id: \.id)
 					{ jbcStationPort in
-						JBCStationPortView(jbcStationPort: jbcStationPort)
+						JBCStationPortView()
+							.environment(jbcStationPort)
 							.frame(maxWidth: .infinity)
 					}
 				}

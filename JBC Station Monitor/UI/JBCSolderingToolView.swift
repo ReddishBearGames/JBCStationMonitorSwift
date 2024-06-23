@@ -9,21 +9,22 @@ import SwiftUI
 
 struct JBCSolderingToolView: View 
 {
-	var jbcTool: JBCSolderingTool
+	@Environment(JBCSolderingTool.self) var jbcTool: JBCSolderingTool
 
     var body: some View
 	{
 		VStack(alignment: .leading)
 		{
 			Text("TOOL_STATUS_\(String(format: NSLocalizedString(jbcTool.toolStatus.localizableKey, comment:"")))")
-			JBCSolderingCurrentTempView(jbcTool: jbcTool)
+			JBCSolderingCurrentTempView()
 		}
     }
 }
 
 struct JBCSolderingCurrentTempView: View
 {
-	var jbcTool: JBCSolderingTool
+	@Environment(JBCSolderingTool.self) var jbcTool: JBCSolderingTool
+	
 	var body: some View
 	{
 		VStack()
@@ -40,12 +41,12 @@ struct JBCSolderingCurrentTempView: View
 						.microDesolderingIron,
 						.desolderingIron,
 						.nanoSolderingIron:
-					JBCSolderingIronView(jbcTool: jbcTool)
+					JBCSolderingIronView()
 				case .microTweezers,
 						.tweezers,
 						.nanoTweezers,
 						.heavyDutySoldering:
-					JBCSolderingTweezersView(jbcTool: jbcTool)
+					JBCSolderingTweezersView()
 				default:
 					EmptyView()
 				}
@@ -58,7 +59,7 @@ struct JBCSolderingCurrentTempView: View
 
 struct JBCSolderingIronView: View
 {
-	var jbcTool: JBCSolderingTool
+	@Environment(JBCSolderingTool.self) var jbcTool: JBCSolderingTool
 	
 	var body: some View
 	{
@@ -70,7 +71,7 @@ struct JBCSolderingIronView: View
 
 struct JBCSolderingTweezersView: View
 {
-	var jbcTool: JBCSolderingTool
+	@Environment(JBCSolderingTool.self) var jbcTool: JBCSolderingTool
 	
 	var body: some View
 	{
@@ -88,9 +89,11 @@ struct JBCSolderingTweezersView: View
 }
 
 #Preview {
-	JBCSolderingToolView(jbcTool: JBCSolderingTool(toolType: .microDesolderingIron))
+	JBCSolderingToolView()
+		.environment(JBCSolderingTool(toolType: .microDesolderingIron))
 }
 
 #Preview {
-	JBCSolderingToolView(jbcTool: JBCSolderingTool(toolType: .microTweezers))
+	JBCSolderingToolView()
+		.environment(JBCSolderingTool(toolType: .microTweezers))
 }

@@ -36,19 +36,10 @@ struct JBCStationCommand
 		case toolStatus = 87 // 0x57
 		case continuousMode = 128 // 80
 		case continuousModeW = 129 // 81
-		case continuousModeUpdate = 130 // 82
 		case stationName = 177 // 0xB1
 		
 		case solderCommand = 250 // Use the solderCommand field instead
 	}
-	
-	// Each port in the update packet is this long
-	static let ContinuousModePortUpdateLength = 10
-	// First byte that starts the port updates section of the response data
-	static let ContinuousModePortUpdateStartPosition = 1
-	// Position containing the Tool Status in the *subfield* of a Port Update
-	static let ContinuousModePortUpdateToolStatusPosition = 8
-
 	
 	var protocolVersion: ProtocolVersion = .protocolTwo
 	var FID: UInt8 // What is this?
@@ -156,7 +147,7 @@ struct JBCStationCommand
 		return ReturnMe
 	}
 	
-	static func extractTempAndPortFromCommonResponse(_ data: Data, numTemps: Int = 1) throws -> (port: UInt8, temperatures: [UInt16])
+	static func extractTwoByteValueAndPortFromCommonResponse(_ data: Data, numTemps: Int = 1) throws -> (port: UInt8, temperatures: [UInt16])
 	{
 		// Need one byte for the port address, and two for each temperature reading we're expecting to be here.
 		guard data.count == 1 + (2*numTemps) else

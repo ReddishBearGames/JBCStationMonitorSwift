@@ -1,6 +1,26 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "AIRFLOW_LABEL_%lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Airflow: %.0lf%%"
+          }
+        }
+      }
+    },
+    "AIRTEMP_LABEL_%u" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%u°"
+          }
+        }
+      }
+    },
     "BUTTON_OPEN_PORT" : {
       "localizations" : {
         "en" : {
@@ -33,6 +53,61 @@
     },
     "Found %lld serial ports." : {
 
+    },
+    "JBC_HOTAIR_TOOL_STATUS_COOLING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cooling"
+          }
+        }
+      }
+    },
+    "JBC_HOTAIR_TOOL_STATUS_HEATER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heating"
+          }
+        }
+      }
+    },
+    "JBC_HOTAIR_TOOL_STATUS_HEATERREQ" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heating Required"
+          }
+        }
+      }
+    },
+    "JBC_HOTAIR_TOOL_STATUS_IDLE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Idle"
+          }
+        }
+      }
+    },
+    "JBC_HOTAIR_TOOL_STATUS_STAND" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tool in Stand"
+          }
+        }
+      }
     },
     "JBC_SERIALPORT_STATE_INITIALIZING" : {
       "extractionState" : "manual",
@@ -111,6 +186,17 @@
         }
       }
     },
+    "JBC_SOLDERING_TOOL_STATUS_UNKNOWN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unknown"
+          }
+        }
+      }
+    },
     "JBC_STATION_TYPE_HOTAIR_%@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -129,6 +215,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ Soldering Station"
+          }
+        }
+      }
+    },
+    "JBC_TOOL_TYPE_HOTAIR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hot Air"
           }
         }
       }
@@ -155,6 +252,28 @@
         }
       }
     },
+    "JBC_TOOL_TYPE_PRECISIONHOTAIR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Precision Hot Air"
+          }
+        }
+      }
+    },
+    "JBC_TOOL_TYPE_SOLDERING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "T245 Soldering Iron"
+          }
+        }
+      }
+    },
     "MAXIMUM_TEMP_LABEL" : {
       "localizations" : {
         "en" : {
@@ -175,12 +294,33 @@
         }
       }
     },
+    "NO_CONNECTED_TOOL" : {
+      "extractionState" : "stale",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Tool Connected"
+          }
+        }
+      }
+    },
     "PORT_LABEL %u" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Port %u"
+          }
+        }
+      }
+    },
+    "POWER_LABEL_%lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Power: %.0lf%%"
           }
         }
       }
@@ -211,6 +351,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vendor ID:"
+          }
+        }
+      }
+    },
+    "SET_AIRFLOW_LABEL_%lf" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target Airflow: %.0lf%%"
           }
         }
       }
@@ -295,6 +445,16 @@
         }
       }
     },
+    "STATUS_LABEL" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Status"
+          }
+        }
+      }
+    },
     "TEMPERATURE_PRESETS_DISABLED_LABEL" : {
       "localizations" : {
         "en" : {
@@ -320,12 +480,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Tool Status: %@"
+            "value" : "%@"
           }
         }
       }
     },
     "TOOL_TYPE_LABEL_%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

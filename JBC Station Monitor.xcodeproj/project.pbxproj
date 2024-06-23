@@ -30,6 +30,7 @@
 		07A6EF7F2C13B58B0003AD7E /* JBCTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF7E2C13B58B0003AD7E /* JBCTool.swift */; };
 		07A6EF812C13D3990003AD7E /* JBCSolderingToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF802C13D3990003AD7E /* JBCSolderingToolView.swift */; };
 		07A6EF832C144C560003AD7E /* TemperaturePresetLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF822C144C560003AD7E /* TemperaturePresetLevels.swift */; };
+		07A6EF852C1D2A650003AD7E /* JBCHotairToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07A6EF842C1D2A650003AD7E /* JBCHotairToolView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		07A6EF7E2C13B58B0003AD7E /* JBCTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCTool.swift; sourceTree = "<group>"; };
 		07A6EF802C13D3990003AD7E /* JBCSolderingToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCSolderingToolView.swift; sourceTree = "<group>"; };
 		07A6EF822C144C560003AD7E /* TemperaturePresetLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemperaturePresetLevels.swift; sourceTree = "<group>"; };
+		07A6EF842C1D2A650003AD7E /* JBCHotairToolView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JBCHotairToolView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 				07A6EF782C113BCE0003AD7E /* JBCStationView.swift */,
 				07A6EF7C2C1188180003AD7E /* JBCStationPortView.swift */,
 				07A6EF802C13D3990003AD7E /* JBCSolderingToolView.swift */,
+				07A6EF842C1D2A650003AD7E /* JBCHotairToolView.swift */,
 				07A6EF682C0D395A0003AD7E /* SerialPortView.swift */,
 			);
 			path = UI;
@@ -348,6 +351,7 @@
 				07A6EF7F2C13B58B0003AD7E /* JBCTool.swift in Sources */,
 				07A6EF6F2C0D70D90003AD7E /* JBCSerialPort.swift in Sources */,
 				07A6EF692C0D395A0003AD7E /* SerialPortView.swift in Sources */,
+				07A6EF852C1D2A650003AD7E /* JBCHotairToolView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

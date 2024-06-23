@@ -100,10 +100,20 @@ import ORSSerial
 		}
 		else
 		{
-			let solderCommand: JBCSolderStation.Command? = JBCSolderStation.Command(rawValue: commandByte)
-			if let solderCommand = solderCommand
+			let solderCommand: JBCStationCommand.CommandSolder? = JBCStationCommand.CommandSolder(rawValue: commandByte)
+			let hotAirCommand: JBCStationCommand.CommandHotair? = JBCStationCommand.CommandHotair(rawValue: commandByte)
+			if let solderCommand = solderCommand,
+			   let hotAirCommand = hotAirCommand
+			{
+				failedCommandString = String("JBCSolderStation.Command.\(solderCommand) or JBCHotAirStation.Command.\(hotAirCommand)")
+			}
+			else if let solderCommand = solderCommand
 			{
 				failedCommandString = String("JBCSolderStation.Command.\(solderCommand)")
+			}
+			else if let hotAirCommand = hotAirCommand
+			{
+				failedCommandString = String("JBCHotAirStation.Command.\(hotAirCommand)")
 			}
 			else
 			{

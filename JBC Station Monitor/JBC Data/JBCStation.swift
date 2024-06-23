@@ -127,22 +127,12 @@ import Foundation
 				// byte 2 seems to be a port error status? Byte 11 is a status of sorts, though only seems to have values for the various sleeping modes?
 				// and byte 14 is the port number
 				let portNum: UInt8 = command.dataField[13] // Keeping in mind they're 0-based
-				if let toolType = JBCTool.ToolType(rawValue: command.dataField[0])
-				{
-					createNewPort(portNum, toolType: toolType)
-					var portNumData: Data = Data()
-					portNumData.append(portNum)
-					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .toolStatus, data: portNumData))
-					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .selectedTemperature, data: portNumData))
-					// Now ask about the next port
-					var nextPortNumData: Data = Data()
-					nextPortNumData.append(portNum + 1)
-					try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .portInfo, data: nextPortNumData))
-				}
-				else
-				{
-					print("Unknown tool type: \(command.dataField[13])")
-				}
+				let toolType: UInt8 = command.dataField[0]
+				createNewPort(portNum, rawToolType: toolType)
+				// Now ask about the next port
+				var nextPortNumData: Data = Data()
+				nextPortNumData.append(portNum + 1)
+				try? self.serialPort.sendCommand(self.serialPort.formCommand(stationCommand: .portInfo, data: nextPortNumData))
 			case .toolStatus:
 				guard command.dataField.count == 2 else
 				{
@@ -173,7 +163,7 @@ import Foundation
 					print("Received selected temperature of different size than expected")
 					return false
 				}
-				if let tempResponse = try? JBCStationCommand.extractTempAndPortFromCommonResponse(command.dataField)
+				if let tempResponse = try? JBCStationCommand.extractTwoByteValueAndPortFromCommonResponse(command.dataField)
 				{
 					if let stationPort = stationPorts.first(where: { $0.id == tempResponse.port })
 					{
@@ -223,23 +213,6 @@ import Foundation
 				{
 					print("Station ACK'd continuous mode request")
 				}
-			case .continuousModeUpdate:
-				let numberOfPorts = (command.dataField.count - 1) / JBCStationCommand.ContinuousModePortUpdateLength
-				for portNum in 0..<numberOfPorts
-				{
-					let fieldStartPos = 1 + portNum * JBCStationCommand.ContinuousModePortUpdateLength
-					let fieldEndPos = fieldStartPos + JBCStationCommand.ContinuousModePortUpdateLength
-					let subfield: Data = Data(command.dataField[fieldStartPos..<fieldEndPos])
-					let utiTipTemp: UInt16 = subfield[0...1].toInteger(endian: .little)
-					let utiTip2Temp: UInt16 = subfield[2...3].toInteger(endian: .little)
-					let status: UInt8 = subfield[JBCStationCommand.ContinuousModePortUpdateToolStatusPosition]
-					if let stationPort = stationPorts.first(where: { $0.id == portNum })
-					{
-						stationPort.connectedTool.tipTemp = utiTipTemp
-						stationPort.connectedTool.tipTwoTemp = utiTip2Temp
-						stationPort.connectedTool.setStatus(rawResponse: status)
-					}
-				}
 			default:
 				handled = false
 			}
@@ -247,7 +220,7 @@ import Foundation
 		return handled
 	}
 
-	func createNewPort(_ portNum: UInt8, toolType: JBCTool.ToolType)
+	func createNewPort(_ portNum: UInt8, rawToolType: UInt8)
 	{
 		// Abstract, for subclasses
 	}
