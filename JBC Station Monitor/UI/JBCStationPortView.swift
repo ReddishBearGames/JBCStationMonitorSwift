@@ -10,6 +10,7 @@ import ORSSerial
 
 struct JBCStationPortView: View 
 {
+	@Environment(JBCStation.self) var jbcStation: JBCStation
 	@Environment(JBCStationPort.self) var jbcStationPort: JBCStationPort
 
 	var body: some View
@@ -21,15 +22,19 @@ struct JBCStationPortView: View
 		{
 			VStack(alignment: .leading)
 			{
-				if let solderingTool = jbcStationPort.connectedTool as? JBCSolderingTool
+				if let solderingTool = jbcStationPort.connectedTool as? JBCSolderingTool,
+					let solderStation = jbcStation as? JBCSolderStation
 				{
 					JBCSolderingPortView()
 						.environment(solderingTool)
+						.environment(solderStation)
 				}
-				else if let hotairTool = jbcStationPort.connectedTool as? JBCHotairTool
+				else if let hotairTool = jbcStationPort.connectedTool as? JBCHotairTool,
+						let hotairStation = jbcStation as? JBCHotAirStation
 				{
 					JBCHotairPortView()
 						.environment(hotairTool)
+						.environment(hotairStation)
 				}
 			}
 			.frame(maxWidth: .infinity, alignment: .leading)

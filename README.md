@@ -3,6 +3,8 @@
 ### What is this?
 
 This is a tool written in Swift and SwiftUI for monitoring various aspects of JBC's line of Solder and Hot Air stations.  It is based on an on-going reverse engineering of the serial protocol. Since it is currently written as SwiftUI application it only runs on macOS, but there's no reason that the communication part can't be turned into a library that would work anywhere.
+![Screenshot of the application connected to a Soldering station with two connected tools](/Images/SolderScreenshot.png)
+![Screenshot of the application connected to a Hot Air station](/Images/HotairScreenshot.png)
 
 ### What works
 
@@ -92,4 +94,4 @@ The meaning of the fields is as follows:
 
 You might have realized that this protocol, in contrast to the Robot version, is binary and not ASCII based. That means that the STX and ETX control characters might actually appear naturally in the middle of a frame. Because of this, frames have to be encoded and decoded before transmission and after receipt. This is done by using the Data Link Escape (DLE, ASCII 0x10). The STX and ETX characters bookending the frame must be preceeded with DLE - and **only** the bookending occurrences of 0x02 and 0x03. Any other occurrences mid-frame should be ignored. If 0x10 appears anywhere in the middle of a frame, an additional 0x10 needs to be inserted to "escape" it.
 
-Note that this encoding must occur *after* the frame is formed and is not considered part of the frame itself. So these DLE characters are not part of the BCC calculation.
+Note that this encoding must occur *after* the frame is formed and is not considered part of the frame itself. So these added DLE characters are not part of the BCC calculation.

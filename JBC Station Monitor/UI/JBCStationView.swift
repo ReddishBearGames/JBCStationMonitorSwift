@@ -56,6 +56,7 @@ struct JBCStationView: View
 					ForEach(jbcStation.stationPorts, id: \.id)
 					{ jbcStationPort in
 						JBCStationPortView()
+							.environment(jbcStation)
 							.environment(jbcStationPort)
 							.frame(maxWidth: .infinity)
 					}
