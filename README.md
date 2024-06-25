@@ -81,13 +81,13 @@ The meaning of the fields is as follows:
 - **`STX`** - 1 Byte. The Start of a frame character, which is literally ASCII STX (0x02)
 - **`SA`** - 1 Byte. Source address, the address of the device sending the packet. When transmitting this is your address, which is determined during the handshake process. When receiving this will be the device's address.
 - **`TA`** - 1 Byte. Target address, the address of the device you're sending the packet to. When transmitting this is the station's address which is determined during the handshake process. When receiving this will be the your address.
-- **`FID`** - 1 Byte. Frame ID. In normal operation, this is an increasing value starting from 0 that identifies a particular exchange. If you send a command with FID 22, you'll receive a response with FID 22 and can use this to identify matching responses. For normal commands you should simply start with 0 and increment by 1 for every command you send, wrapping around back to 0 when you hit FF. There are two cases I know of where this works a little differently:
+- **`FID`** - 1 Byte. Frame ID. In normal operation, this is an increasing value starting from 0 that identifies a particular exchange. If you send a command with FID 22, you'll receive a response with FID 22 and can use this to identify matching responses. For normal commands you should simply start with 0 and increment by 1 for every command you send, wrapping around back to 0 when you hit MAXVALUE. The upper ranges seem to be reserved from normal use, and appear during handshake for instance. I believe that MAXVALUE is 230, but this is just an educated guess. There are two cases I know of where this works a little differently:
   - During handshake, the FID seems to have arbitrary values. If there's a meaning to it, I don't know what it is.
   - During "continuous mode" updates, the station sends update packets with an incremented FID on every new update, wrapping to 0 itself after FF. I believe you're meant to only use the 'newest' if you aren't processing them all fast enough.
 - **`CMD`** - 1 Byte. The actual command you're sending. Unlike robot mode, you don't specify Read or Write as a modifier, rather Read and Write versions of the same command will have different but usually (always?) sequential values. The actual commands available vary by station type (Solder vs Hot Air) with some overlap, and the table is not documented that I know of. This tool only supports the subset of commands that I've reverse engineered so far.
 - **`Length`** - 1 Byte. The number of bytes present in the data payload. This can be 0 in which case there will be no data payload field at all.
 - **`{Data}`** - 0 - 255 Bytes. The data payload. **MOST** commands will respond with a payload, and many commands you send require a payload containing arguments. The format of this payload is not documented, and most of the difficulty in implementing a new command is reverse engineering the meaning of the data payloads. The payloads for sent commands tend to be quite straightforward fortunately. Note that this data is raw and not ASCII like the Robot version.
-- **`BCC`** - All the bytes of the frame XOR'd together EXCLUDING of course the BCC field itself - but still includes the ETX at the end of the frame.
+- **`BCC`** - 1 Byte. All the bytes of the frame XOR'd together EXCLUDING of course the BCC field itself - but still includes the ETX at the end of the frame.
 - **`ETX`** - 1 Byte. The End of frame character, which is literally ASCII ETX (0x03)
 
 #### Frame Encoding
@@ -95,3 +95,45 @@ The meaning of the fields is as follows:
 You might have realized that this protocol, in contrast to the Robot version, is binary and not ASCII based. That means that the STX and ETX control characters might actually appear naturally in the middle of a frame. Because of this, frames have to be encoded and decoded before transmission and after receipt. This is done by using the Data Link Escape (DLE, ASCII 0x10). The STX and ETX characters bookending the frame must be preceeded with DLE - and **only** the bookending occurrences of 0x02 and 0x03. Any other occurrences mid-frame should be ignored. If 0x10 appears anywhere in the middle of a frame, an additional 0x10 needs to be inserted to "escape" it.
 
 Note that this encoding must occur *after* the frame is formed and is not considered part of the frame itself. So these added DLE characters are not part of the BCC calculation.
+
+### Handshake
+
+Note: All frames/packets shown here are NOT encoded for illustration purposes, but should be in practice. I might also have some of the details of this exchange not quite right, but this is the solution I've arrived at that works on both of the station I have access to.
+
+Unlike the Robot, the USB protocol requires you to perform a handshake procedure. I do not know if this is the same with Protocol 1 devices or not. Whenever you open the serial port, you'll immediately start being hit with a handshake packet. The packet looks like this:
+```
+Device -> 02,00,1d,fd,00,01,1d,fd,03
+```
+During handshake a lot of the fields seem to have "magic values", but the Command field is set to 0 which is the handshake command. FID of 'fd' (253) seems to also be a magic value here. Also, the data payload value will be '1d' which corresponds to the "Discover" command. There are times where a command constant comes embedded in data payload, and I've come to think of these as subcommands. It's unclear to me here whether the 1d in the address fields is a coincidence in this case.
+
+Our reply to this message should be another handshake packet, but with "ACK" (0x06) as the subcommand. The target address field should be the value in the source field XOR'd by 80 (I'm unclear if 80 is a magic number, or if this is us requesting address 80). So in this case we'd send back
+```
+Device <- 02,9d,00,fd,00,01,06,66,03
+```
+And then immediately send a request for the firmware on the station. This packet is addressed to the target that appeared in the broadcast, but we don't set a source address and we use the magic FID of '0xed':
+```
+Device <- 02,1d,00,ed,21,00,d0,03
+```
+We'll receive a reply with the firmware. Notice it addresses this to 80; I'm unclear if this has meaning for if it's confirming somehow because we XOR'd by 80 earlier.
+```
+Device -> 02,80,1d,ed,21,1e,30,32,3a,4a,54,53,45,5f,43,41,50,5f,30,31,3a,38,38,38,36,38,35,35,3a,30,30,32,33,30,30,35,2f,03
+```
+Upon receipt, we then ask for the device's ID, notice we do **NOT** use the 80 address here for ourselves. We **do** start properly incrementing FID at this point.
+```
+Device <- 02,1d,00,01,1e,00,03,03
+```
+The device replies with its ID. I'm not sure if this is a serial # or just a UUID of sorts:
+```
+Device -> 02,80,1d,01,1e,20,64,38,33,66,66,64,66,66,37,37,66,32,34,32,33,61,38,31,63,36,39,66,33,61,33,32,32,32,64,34,36,36,a8,03
+```
+Upon receipt of the Device ID reply, we send a simple ACK:
+```
+Device <- 02,1d,00,02,06,00,18,03
+```
+And will receive an ACK with a subcommand of ACK in reply.
+```
+Device -> 02,80,1d,02,06,01,06,9f,03
+```
+This ACK indicates that the handshake is complete, and I believe the address it uses here should be taken for our final address for all future broadcasts. 
+
+**Please Note:** The device will revert to handshake mode again after about 2 seconds of not receiving any new commands *EVEN DURING CONTINUOUS UPDATE MODE*. If you want it to remain active, schedule some sort of command like a port status to occur periodically.
